@@ -17,7 +17,6 @@ Admin 提供了最基础的布局 Layout 预设了常用的逻辑，模块化的
 
 ## 脚手架概览
 ```
-├── docx                      存放文档
 ├── public                    静态文件
 ├── src                       源码
 ├── .env.development          环境变量配置
@@ -26,6 +25,5 @@ Admin 提供了最基础的布局 Layout 预设了常用的逻辑，模块化的
 ├── .gitignore                Git 或略文件
 ├── index.html                网页入口
 ├── package.json              项目配置
-├── vite.config.js            Vite 配置
-└── vite.packages.config.js   组件打包配置 (无需关注)
+└── vite.config.js            Vite 配置
 ```
