@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { Number, QueryFilter, Select, Text } from '../../packages/index.mjs'
+import { Number, QueryFilter, Select, Text } from '@/components/form'
 
 export default defineComponent({
     setup () {
