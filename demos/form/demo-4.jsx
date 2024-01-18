@@ -7,11 +7,11 @@ export default defineComponent({
             return (
                 <Form>
                     <Number width={'sm'} label={'数字'} name={'number'}/>
-                    <Form.Item noStyle={true} v-slots={{
-                        default: (form) => {
+                    <Form.Dependency name={['number']} v-slots={{
+                        default: ({ number }) => {
                             return (
                                 <div style={{ color: 'blue' }}>
-                                    输入的数字是: {form && form.getFieldValue('number')}
+                                    输入的数字是: {number}
                                 </div>
                             )
                         }
