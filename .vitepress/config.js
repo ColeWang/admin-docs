@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
     lang: 'zh-CN',
     title: 'Admin',
-    base: '/admin-template-docs/',
+    base: '/admin-docs/',
     appearance: false,
     themeConfig: {
         siteTitle: 'Admin',

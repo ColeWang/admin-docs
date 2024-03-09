@@ -1,2 +1,2 @@
-# admin-template-docs
+# admin-docs
 文档
