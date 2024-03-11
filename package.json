@@ -13,12 +13,11 @@
     "vue": "^3.4.21"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.4",
-    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
     "markdown-it": "^14.0.0",
     "markdown-it-container": "^4.0.0",
-    "sass": "^1.71.1",
-    "vite": "^5.1.5",
-    "vitepress": "^1.0.0-rc.45"
+    "sass": "^1.66.1",
+    "vite": "^4.4.9",
+    "vitepress": "^1.0.0-rc.15"
   }
 }
