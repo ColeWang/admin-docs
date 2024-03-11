@@ -7,16 +7,27 @@ Icon - 图标
 ---
 
 <script setup>
-import { defineComponent } from 'vue';
-import {
-ExitFullscreenOutlined,
-FullscreenOutlined,
-HamburgerOutlined,
-MenuOutlined,
-PasswordFilled,
-UserFilled
-} from '../packages/index.js';
+import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
+
+const ExitFullscreenOutlined = defineAsyncComponent(() => {
+  return import('../demos/icons/ExitFullscreenOutlined')
+});
+const FullscreenOutlined = defineAsyncComponent(() => {
+  return import('../demos/icons/FullscreenOutlined')
+});
+const HamburgerOutlined = defineAsyncComponent(() => {
+  return import('../demos/icons/HamburgerOutlined')
+});
+const MenuOutlined = defineAsyncComponent(() => {
+  return import('../demos/icons/MenuOutlined')
+});
+const PasswordFilled = defineAsyncComponent(() => {
+  return import('../demos/icons/PasswordFilled')
+});
+const UserFilled = defineAsyncComponent(() => {
+  return import('../demos/icons/UserFilled')
+});
 </script>
 <style>
 .icon-wrap {
