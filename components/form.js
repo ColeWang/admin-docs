@@ -10,7 +10,7 @@ import {
     Submitter,
     Text,
     TextArea,
-} from '../packages/index.mjs'
+} from '../packages/index.js'
 
 export {
     Form,

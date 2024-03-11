@@ -1,5 +1,5 @@
 import { defineComponent, ref, unref } from 'vue'
-import { Navbar } from '@/packages/index.mjs'
+import { Navbar } from '@/packages/index.js'
 
 export default defineComponent({
     setup () {

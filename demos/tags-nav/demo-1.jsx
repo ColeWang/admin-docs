@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Button } from 'ant-design-vue'
-import { TagsNav } from '@/packages/index.mjs'
+import { TagsNav } from '@/packages/index.js'
 
 export default defineComponent({
     setup () {

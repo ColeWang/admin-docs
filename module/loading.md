@@ -9,8 +9,8 @@ import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
 const LoadingDemo1 = defineAsyncComponent(() => {
-  return import('../demos/loading/demo-1');
-});
+  return import('../demos/loading/demo-1')
+})
 </script>
 
 ## 基本用法

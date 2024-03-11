@@ -1,6 +1,6 @@
 import { defineComponent, ref, unref } from 'vue'
 import { Button } from 'ant-design-vue'
-import { Sidebar } from '@/packages/index.mjs'
+import { Sidebar } from '@/packages/index.js'
 
 export default defineComponent({
     setup () {

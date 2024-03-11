@@ -1,4 +1,4 @@
-import { Action, EditTable, Table } from '../packages/index.mjs'
+import { Action, EditTable, Table } from '../packages/index.js'
 
 export {
     Table,

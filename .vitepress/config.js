@@ -35,31 +35,31 @@ export default defineConfig({
                             text: '目录结构',
                             link: '/intro/structure',
                         },
-                    ]
-                },
-                {
-                    text: '模板深入',
-                    items: [
                         {
-                            text: 'Layout - 布局',
-                            link: '/intro/layout',
-                        },
-                        {
-                            text: 'SideBar - 侧边栏',
-                            link: '/intro/sidebar'
-                        },
-                        {
-                            text: 'NavBar - 导航栏',
-                            link: '/intro/navbar'
-                        },
-                        {
-                            text: 'TagsNav - 标签导航',
-                            link: '/intro/tags-nav'
+                            text: '权限控制',
+                            link: '/intro/permission'
                         }
                     ]
                 }
             ],
             '/module/': [
+                {
+                    text: 'Layout',
+                    items: [
+                        {
+                            text: 'SideBar - 侧边栏',
+                            link: '/module/sidebar'
+                        },
+                        {
+                            text: 'NavBar - 导航栏',
+                            link: '/module/navbar'
+                        },
+                        {
+                            text: 'TagsNav - 标签导航',
+                            link: '/module/tags-nav'
+                        }
+                    ],
+                },
                 {
                     text: '通用',
                     items: [

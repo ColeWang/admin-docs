@@ -26,3 +26,24 @@
 ├── App.tsx                   App
 └── main.js                   入口文件
 ```
+
+## 布局视图
+
+<img  src="@/layout.jpg"/>
+
+## Layout 目录结构
+
+```
+├── components                组件
+│   ├─ avatar                     头像组件
+│   ├─ breadcrumb                 面包屑组件
+│   ├─ fullscreen                 全屏组件
+│   ├─ navbar                     导航组件
+│   ├─ sidebar                    侧边栏组件
+│   └─ tags-nav                   标签导航组件
+├── style                     样式文件
+├── AppContent.jsx            中心容器
+├── AppMain.jsx               整体布局处理
+├── index.jsx                  处理组件间关联逻辑并与外部逻辑承接
+└── utils.js                  工具库
+```
