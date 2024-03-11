@@ -25,6 +25,9 @@ const TableDemo3 = defineAsyncComponent(() => {
 const TableDemo4 = defineAsyncComponent(() => {
   return import('../demos/table/demo-4')
 })
+const TableDemo5 = defineAsyncComponent(() => {
+  return import('../demos/table/demo-5')
+})
 </script>
 
 <style>
@@ -101,6 +104,19 @@ const TableDemo4 = defineAsyncComponent(() => {
 
 </details>
 
+## 可折叠搜索项
+
+<ClientOnly>
+<TableDemo5></TableDemo5>
+</ClientOnly>
+
+<details>
+<summary>显示代码</summary>
+
+<<< @/demos/table/demo-5.jsx
+
+</details>
+
 ## API
 
 ### 属性
@@ -114,8 +130,17 @@ const TableDemo4 = defineAsyncComponent(() => {
 | beforeSearchSubmit | 表单提交前的数据处理               | (values) => values                                                             | -     |
 | postData           | 对 request 获取的数据进行处理      | (data, params, paginate, filter, sort) => \[]                                  | -     |
 | action             | Table action 的引用 便于自定义触发 | object                                                                         | -     |
-| search             | 搜索表单                     | object \| false                                                                | -     |
-| toolbar            | 工具栏                      | object \| false                                                                | -     |
+| search             | 搜索表单                     | [object](./query-filter.html#api) \| Slot \| false                             | -     |
+| toolbar            | 工具栏                      | object \| Slot \| false                                                        | -     |
+
+### Toolbar
+
+| 属性            | 说明      | 类型                        | 默认值  |
+|---------------|---------|---------------------------|------|
+| exportRender  | 显示导出    | boolean                   | true |
+| sizeRender    | 显示 size | boolean                   | true |
+| settingRender | 显示表头设置  | boolean                   | true |
+| onExport      | 自定义导出   | Function(dom, dataSource) | -    |
 
 ### 事件
 
@@ -127,6 +152,7 @@ const TableDemo4 = defineAsyncComponent(() => {
 | onSortChange     | 排序变化的回调       | Function(sort)                             |
 | onLoadingChange  | loading 变化的回调 | Function(value)                            |
 | onSizeChange     | size 变化的回调    | Function(size)                             |
+| settingChange    | 表头变化的回调       | Function(columns)                          |
 | onLoad           | 数据请求成功的回调     | Function(data)                             |
 | onRequestError   | 数据请求失败的回调     | Function(err)                              |
 | onSubmit         | 表单提交回调        | Function(values)                           |
