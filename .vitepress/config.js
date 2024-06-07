@@ -71,6 +71,14 @@ export default defineConfig({
                             text: 'Icon - 图标',
                             link: '/module/icon',
                         },
+                        {
+                            text: 'Field - 原子组件',
+                            link: '/module/field',
+                        },
+                        {
+                            text: 'CustomFields - 自定义原子组件',
+                            link: '/module/custom-fields',
+                        }
                     ],
                 },
                 {
@@ -81,20 +89,20 @@ export default defineConfig({
                             link: '/module/form',
                         },
                         {
-                            text: 'Fields - 表单项',
-                            link: '/module/fields',
-                        },
-                        {
                             text: 'ModalForm - 浮层表单',
                             link: '/module/modal-form',
+                        },
+                        {
+                            text: 'DrawerForm - 抽屉表单',
+                            link: '/module/drawer-form',
                         },
                         {
                             text: 'QueryFilter - 筛选表单',
                             link: '/module/query-filter',
                         },
                         {
-                            text: 'Field - 原子组件',
-                            link: '/module/field',
+                            text: 'Fields - 表单项',
+                            link: '/module/fields',
                         }
                     ],
                 },
@@ -106,8 +114,12 @@ export default defineConfig({
                             link: '/module/table',
                         },
                         {
-                            text: 'EditTable - 可编辑表格',
-                            link: '/module/edit-table',
+                            text: 'EditableTable - 可编辑表格',
+                            link: '/module/editable-table',
+                        },
+                        {
+                            text: 'Descriptions - 描述列表',
+                            link: '/module/descriptions',
                         }
                     ],
                 }

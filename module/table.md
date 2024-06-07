@@ -10,24 +10,24 @@ Table 是为了解决项目中需要写很多 table 的样板代码的问题，�
 
 
 <script setup>
-import { defineAsyncComponent } from 'vue'
-import '../packages/style.css'
+import { defineAsyncComponent } from 'vue';
+import '../packages/style.css';
 
 const TableDemo1 = defineAsyncComponent(() => {
   return import('../demos/table/demo-1')
-})
+});
 const TableDemo2 = defineAsyncComponent(() => {
   return import('../demos/table/demo-2')
-})
+});
 const TableDemo3 = defineAsyncComponent(() => {
   return import('../demos/table/demo-3')
-})
+});
 const TableDemo4 = defineAsyncComponent(() => {
   return import('../demos/table/demo-4')
-})
+});
 const TableDemo5 = defineAsyncComponent(() => {
   return import('../demos/table/demo-5')
-})
+});
 </script>
 
 <style>
