@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
-import { ModalForm, Number, Text } from '@/components/form'
+import { DrawerForm, Number, Text } from '@/components/form'
 
 export default defineComponent({
     setup () {
@@ -15,8 +15,8 @@ export default defineComponent({
 
         return () => {
             return (
-                <ModalForm
-                    title={'浮层表单'}
+                <DrawerForm
+                    title={'抽屉表单'}
                     grid={true}
                     width={512}
                     onFinish={onFinish}
@@ -36,7 +36,7 @@ export default defineComponent({
                         name={'number'}
                         colProps={{ span: 12 }}
                     />
-                </ModalForm>
+                </DrawerForm>
             )
         }
     }

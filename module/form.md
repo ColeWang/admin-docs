@@ -127,10 +127,10 @@ const FormDemo6 = defineAsyncComponent(() => {
 
 | 事件名称           | 说明           | 回调参数             |
 |----------------|--------------|------------------|
-| onValuesChange | 数据变化时回调      | Function(values) |
-| onSubmit       | 提交时并且校验通过的回调 | Function(values) |
-| onFinish       | 提交时并且校验通过的回调 | Function(values) |
-| onReset        | 重置表单回调       | Function(values) |
+| onValuesChange | 数据变化时回调      | function(values) |
+| onSubmit       | 提交时并且校验通过的回调 | function(values) |
+| onFinish       | 提交时并且校验通过的回调 | function(values) |
+| onReset        | 重置表单回调       | function(values) |
 
 ### 方法
 

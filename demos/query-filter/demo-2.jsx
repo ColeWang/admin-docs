@@ -42,7 +42,7 @@ export default defineComponent({
             }
 
             return (
-                <QueryFilter collapseRender={true} v-slots={queryFilterSlots}/>
+                <QueryFilter showCollapse={true} v-slots={queryFilterSlots}/>
             )
         }
     }

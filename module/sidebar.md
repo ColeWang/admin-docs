@@ -7,8 +7,8 @@ SideBar - 侧边栏
 import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
-const SidebarDemo1 = defineAsyncComponent(() => {
-  return import('../demos/sidebar/demo-1')
+const SidebarDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/sidebar/demo-basic')
 })
 </script>
 
@@ -22,13 +22,13 @@ const SidebarDemo1 = defineAsyncComponent(() => {
 ## 基本用法
 
 <ClientOnly>
-<SidebarDemo1></SidebarDemo1>
+<SidebarDemoBasic></SidebarDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/sidebar/demo-1.jsx
+<<< @/demos/sidebar/demo-basic.jsx
 
 </details>
 
@@ -46,5 +46,5 @@ const SidebarDemo1 = defineAsyncComponent(() => {
 
 | 事件名称     | 说明      | 回调参数           |
 |----------|---------|----------------|
-| onChange | 数据变化时回调 | Function(name) |
+| onChange | 数据变化时回调 | function(name) |
 

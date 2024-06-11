@@ -8,20 +8,20 @@ Loading - 全局加载
 import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
-const LoadingDemo1 = defineAsyncComponent(() => {
-  return import('../demos/loading/demo-1')
+const LoadingDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/loading/demo-basic')
 })
 </script>
 
 ## 基本用法
 
 <ClientOnly>
-<LoadingDemo1></LoadingDemo1>
+<LoadingDemoBasic></LoadingDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/loading/demo-1.jsx
+<<< @/demos/loading/demo-basic.jsx
 
 </details>

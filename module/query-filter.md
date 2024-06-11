@@ -66,7 +66,7 @@ const QueryFilterDemo2 =defineAsyncComponent(() => {
 
 | 事件名称       | 说明    | 回调参数            |
 |------------|-------|-----------------|
-| onCollapse | 折叠的回调 | Function(value) |
+| onCollapse | 折叠的回调 | function(value) |
 
 ### 方法
 

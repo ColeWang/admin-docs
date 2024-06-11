@@ -7,8 +7,8 @@ NavBar - 导航栏
 import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
-const NavbarDemo1 = defineAsyncComponent(() => {
-  return import('../demos/navbar/demo-1')
+const NavbarDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/navbar/demo-basic')
 });
 </script>
 
@@ -25,13 +25,13 @@ div[class*='language-'] {
 ## 基本用法
 
 <ClientOnly>
-<NavbarDemo1></NavbarDemo1>
+<NavbarDemoBasic></NavbarDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/navbar/demo-1.jsx
+<<< @/demos/navbar/demo-basic.jsx
 
 </details>
 
@@ -47,6 +47,6 @@ div[class*='language-'] {
 
 | 事件名称     | 说明      | 回调参数            |
 |----------|---------|-----------------|
-| onChange | 数据变化时回调 | Function(value) |
+| onChange | 数据变化时回调 | function(value) |
 
 

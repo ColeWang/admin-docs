@@ -140,23 +140,23 @@ const TableDemo5 = defineAsyncComponent(() => {
 | exportRender  | 显示导出    | boolean                   | true |
 | sizeRender    | 显示 size | boolean                   | true |
 | settingRender | 显示表头设置  | boolean                   | true |
-| onExport      | 自定义导出   | Function(dom, dataSource) | -    |
+| onExport      | 自定义导出   | function(dom, dataSource) | -    |
 
 ### 事件
 
 | 事件名称             | 说明            | 回调参数                                       |
 |------------------|---------------|--------------------------------------------|
-| onChange         | Table 数据变化的回调 | Function(paginate, filters, sorter, extra) |
-| onPaginateChange | 分页变化的回调       | Function(paginate)                         |
-| onFilterChange   | 过滤的回调         | Function(filter)                           |
-| onSortChange     | 排序变化的回调       | Function(sort)                             |
-| onLoadingChange  | loading 变化的回调 | Function(value)                            |
-| onSizeChange     | size 变化的回调    | Function(size)                             |
-| settingChange    | 表头变化的回调       | Function(columns)                          |
-| onLoad           | 数据请求成功的回调     | Function(data)                             |
-| onRequestError   | 数据请求失败的回调     | Function(err)                              |
-| onSubmit         | 表单提交回调        | Function(values)                           |
-| onReset          | 表单重置回调        | Function(params)                           |
+| onChange         | Table 数据变化的回调 | function(paginate, filters, sorter, extra) |
+| onPaginateChange | 分页变化的回调       | function(paginate)                         |
+| onFilterChange   | 过滤的回调         | function(filter)                           |
+| onSortChange     | 排序变化的回调       | function(sort)                             |
+| onLoadingChange  | loading 变化的回调 | function(value)                            |
+| onSizeChange     | size 变化的回调    | function(size)                             |
+| settingChange    | 表头变化的回调       | function(columns)                          |
+| onLoad           | 数据请求成功的回调     | function(data)                             |
+| onRequestError   | 数据请求失败的回调     | function(err)                              |
+| onSubmit         | 表单提交回调        | function(values)                           |
+| onReset          | 表单重置回调        | function(params)                           |
 
 ### 方法
 
@@ -171,10 +171,10 @@ const TableDemo5 = defineAsyncComponent(() => {
 | title         | 列头显示文字                    | string                                         | -      |
 | dataIndex     | 列数据在数据项中对应的路径             | string                                         | -      |
 | key           | dataIndex 的变体             | string                                         | -      |
-| customRender  | 渲染函数                      | Function(text, record, number, action, column) | -      |
+| customRender  | 渲染函数                      | function(text, record, number, action, column) | -      |
 | filters       | 表头的筛选菜单项                  | object\[]                                      | -      |
-| sorter        | 排序函数                      | Function \| boolean                            | -      |
-| onFilter      | 作为 filter 事件使用            | Function                                       | -      |
+| sorter        | 排序函数                      | function \| boolean                            | -      |
+| onFilter      | 作为 filter 事件使用            | function                                       | -      |
 | fixed         | 固定列                       | 'left' \| 'right'                              | -      |
 | width         | 列宽度                       | string \| number                               | -      |
 | ellipsis      | 自动省略                      | boolean \| { showTitle?\: boolean }            | false  |

@@ -1,8 +1,18 @@
-import { defineComponent } from 'vue'
+import { defineComponent, ref, unref } from 'vue'
 import { Number, QueryFilter, Select, Text } from '@/components/form'
 
 export default defineComponent({
     setup () {
+        const loading = ref(false)
+
+        function onFinish (values) {
+            console.log(values)
+            loading.value = true
+            setTimeout(() => {
+                loading.value = false
+            }, 1000)
+        }
+
         return () => {
             const queryFilterSlots = {
                 default: (slotScope) => {
@@ -27,7 +37,11 @@ export default defineComponent({
             }
 
             return (
-                <QueryFilter v-slots={queryFilterSlots}/>
+                <QueryFilter
+                    loading={unref(loading)}
+                    onFinish={onFinish}
+                    v-slots={queryFilterSlots}
+                />
             )
         }
     }

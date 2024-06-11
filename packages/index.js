@@ -3184,8 +3184,7 @@ const cx$b = classNames.bind(styles$9);
 const Actions = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
-    ...Submitter.props,
-    showCollapse: {
+    loading: {
       type: Boolean,
       default: false
     },
@@ -3193,26 +3192,49 @@ const Actions = /* @__PURE__ */ defineComponent({
       type: Boolean,
       default: true
     },
+    showCollapse: {
+      type: Boolean,
+      default: false
+    },
+    submitter: {
+      type: Object,
+      default: () => ({})
+    },
+    onSubmit: {
+      type: Function,
+      default: void 0
+    },
+    onReset: {
+      type: Function,
+      default: void 0
+    },
     onCollapse: {
       type: Function,
       default: void 0
     }
   },
-  emits: ["collapse"],
+  emits: ["submit", "reset", "collapse"],
   setup(props, {
-    emit,
-    attrs
+    emit
   }) {
     const {
       t
     } = useLocaleReceiver(["Form"]);
+    function onSubmit(evt) {
+      emit("submit", evt);
+    }
+    function onReset(evt) {
+      emit("reset", evt);
+    }
     function onCollapse() {
       emit("collapse", !props.collapsed);
     }
     return () => {
       const {
+        loading: loading2,
+        collapsed,
         showCollapse,
-        collapsed
+        submitter
       } = props;
       const collapseDom = showCollapse && createVNode(Button, {
         "class": cx$b("collapse-button"),
@@ -3222,8 +3244,11 @@ const Actions = /* @__PURE__ */ defineComponent({
         default: () => [createVNode("span", null, [!collapsed ? t("expand") : t("collapsed")]), collapsed ? createVNode(DownOutlined, null, null) : createVNode(UpOutlined, null, null)]
       });
       const submitterProps2 = {
-        ...attrs,
-        ...pick(props, Object.keys(Submitter.props))
+        ...pick(submitter, Object.keys(Submitter.props)),
+        submitText: submitter.submitText || t("search"),
+        loading: loading2,
+        onSubmit,
+        onReset
       };
       return createVNode(Space, {
         "size": 10
@@ -3402,9 +3427,6 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
       height: 0
     });
     const {
-      t
-    } = useLocaleReceiver(["Form"]);
-    const {
       layout,
       span,
       collapsed,
@@ -3436,8 +3458,7 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
     return () => {
       const {
         labelWidth,
-        gutter,
-        submitText
+        gutter
       } = props;
       const slotScope = {
         layout: unref(layout),
@@ -3472,7 +3493,6 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
       };
       const actionsProps = {
         ...pick(props, Object.keys(Actions.props)),
-        submitText: submitText || t("search"),
         collapsed: unref(collapsed),
         onSubmit,
         onReset,
@@ -3539,9 +3559,12 @@ const extraProps$1 = {
 };
 const floatProps = {
   ...BaseForm.props,
-  ...Submitter.props,
   ...extraProps$1,
   extraProps: {
+    type: Object,
+    default: () => ({})
+  },
+  submitter: {
     type: Object,
     default: () => ({})
   },
@@ -3674,8 +3697,7 @@ const index$2 = /* @__PURE__ */ defineComponent({
     return () => {
       const {
         extraProps: extraProps2,
-        submitText,
-        resetText
+        submitter
       } = props;
       const baseFormProps2 = {
         ...attrs,
@@ -3693,9 +3715,9 @@ const index$2 = /* @__PURE__ */ defineComponent({
       const modalSlots = {
         footer: () => {
           const submitterProps2 = {
-            ...pick(props, Object.keys(Submitter.props)),
-            submitText: submitText || t("okText"),
-            resetText: resetText || t("cancelText"),
+            ...pick(submitter, Object.keys(Submitter.props)),
+            submitText: submitter.submitText || t("okText"),
+            resetText: submitter.resetText || t("cancelText"),
             loading: unref(loading2),
             onSubmit,
             onReset: onCancel
@@ -3781,8 +3803,7 @@ const index$1 = /* @__PURE__ */ defineComponent({
     return () => {
       const {
         extraProps: extraProps2,
-        submitText,
-        resetText
+        submitter
       } = props;
       const baseFormProps2 = {
         ...attrs,
@@ -3803,9 +3824,9 @@ const index$1 = /* @__PURE__ */ defineComponent({
       const drawerSlots = {
         extra: () => {
           const submitterProps2 = {
-            ...pick(props, Object.keys(Submitter.props)),
-            submitText: submitText || t("okText"),
-            resetText: resetText || t("cancelText"),
+            ...pick(submitter, Object.keys(Submitter.props)),
+            submitText: submitter.submitText || t("okText"),
+            resetText: submitter.resetText || t("cancelText"),
             loading: unref(loading2),
             onSubmit,
             onReset: onCancel

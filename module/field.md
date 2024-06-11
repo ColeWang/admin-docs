@@ -12,21 +12,21 @@ Field - 原子组件
 import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
-const FieldDemo1 = defineAsyncComponent(() => {
-  return import('../demos/field/demo-1')
+const FieldDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/field/demo-basic')
 })
 </script>
 
 ## 基本用法
 
 <ClientOnly>
-<FieldDemo1></FieldDemo1>
+<FieldDemoBasic></FieldDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/field/demo-1.jsx
+<<< @/demos/field/demo-basic.jsx
 
 </details>
 

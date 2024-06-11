@@ -6,21 +6,21 @@ TagsNav - 标签导航
 import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
-const TagsNavDemo1 = defineAsyncComponent(() => {
-  return import('../demos/tags-nav/demo-1')
+const TagsNavDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/tags-nav/demo-basic')
 })
 </script>
 
 ## 基本用法
 
 <ClientOnly>
-<TagsNavDemo1></TagsnavDemo1>
+<TagsNavDemoBasic></TagsNavDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/tags-nav/demo-1.jsx
+<<< @/demos/tags-nav/demo-basic.jsx
 
 </details>
 
@@ -38,5 +38,5 @@ const TagsNavDemo1 = defineAsyncComponent(() => {
 
 | 事件名称    | 说明      | 回调参数                    |
 |---------|---------|-------------------------|
-| onClick | 标签点击回调  | Function(current)       |
-| onClose | 数据变化时回调 | Function(values, name?) |
+| onClick | 标签点击回调  | function(current)       |
+| onClose | 数据变化时回调 | function(values, name?) |

@@ -19,21 +19,21 @@ Form 自带了一些表单项, 这些组件本质上是 [Antd Form.Item](https:/
 import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
-const FieldsDemo1 = defineAsyncComponent(() => {
-  return import('../demos/fields/demo-1')
+const FieldsDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/fields/demo-basic')
 })
 </script>
 
 ## 基本用法
 
 <ClientOnly>
-<FieldsDemo1></FieldsDemo1>
+<FieldsDemoBasic></FieldsDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/fields/demo-1.jsx
+<<< @/demos/fields/demo-basic.jsx
 
 </details>
 
