@@ -1,11 +1,11 @@
 import { defineComponent } from 'vue'
-import { ExitFullscreenOutlined } from '@/components/icons.js'
+import { FullscreenOutlined } from '@/components/icons.js'
 
 export default defineComponent({
     setup () {
         return () => {
             return (
-                <ExitFullscreenOutlined></ExitFullscreenOutlined>
+                <FullscreenOutlined></FullscreenOutlined>
             )
         }
     }

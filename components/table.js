@@ -1,8 +1,8 @@
-import { Action, EditTable, Table } from '../packages/index.js'
+import { Action, EditableTable, Table } from '../packages/index.js'
 
 export {
     Table,
-    EditTable,
+    EditableTable,
     Action
 }
 

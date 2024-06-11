@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { DatePicker, Form, Number, RangePicker, Select, Text, TextArea } from '@/components/form'
+import { Date, Form, Number, DateRange, Select, Text, TextArea } from '@/components/form'
 
 export default defineComponent({
     setup () {
@@ -30,12 +30,12 @@ export default defineComponent({
                                 '2': '选项二'
                             }}
                         />
-                        <DatePicker
+                        <Date
                             width={'xs'}
                             label={'Date'}
                             name={'date'}
                         />
-                        <RangePicker
+                        <DateRange
                             width={'sm'}
                             label={'DateRange'}
                             name={'dateRange'}

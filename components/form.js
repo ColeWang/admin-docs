@@ -1,11 +1,11 @@
 import {
-    DatePicker,
+    Date,
     Field,
     Form,
     ModalForm,
     Number,
     QueryFilter,
-    RangePicker,
+    DateRange,
     Select,
     Submitter,
     Text,
@@ -22,6 +22,6 @@ export {
     TextArea,
     Number,
     Select,
-    DatePicker,
-    RangePicker,
+    DateRange,
+    Date,
 }

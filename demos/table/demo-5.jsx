@@ -32,9 +32,9 @@ export default defineComponent({
                 title: 'Action',
                 customRender: () => {
                     return (
-                        <Action>
-                            <Action.Item>操作</Action.Item>
-                        </Action>
+                        <Action.Group>
+                            <Action>操作</Action>
+                        </Action.Group>
                     )
                 }
             }

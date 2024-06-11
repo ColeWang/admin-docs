@@ -1,6 +1,6 @@
 import { defineComponent, reactive } from 'vue'
 import { Button } from 'ant-design-vue'
-import { DatePicker, Form, Number, Select, Text } from '@/components/form'
+import { Date, Form, Number, Select, Text } from '@/components/form'
 
 export default defineComponent({
     setup () {
@@ -38,7 +38,7 @@ export default defineComponent({
                         label={'数字'}
                         name={'number'}
                     />
-                    <DatePicker
+                    <Date
                         width={'sm'}
                         label={'时间'}
                         name={'datePicker'}
