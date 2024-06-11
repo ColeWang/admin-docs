@@ -8,15 +8,15 @@ Table 中默认支持了 QueryFilter 作为筛选表单。
 
 
 <script setup>
-import { defineAsyncComponent } from 'vue';
-import '../packages/style.css';
+import { defineAsyncComponent } from 'vue'
+import '../packages/style.css'
 
 const QueryFilterDemo1 = defineAsyncComponent(() => {
   return import('../demos/query-filter/demo-1')
-});
+})
 const QueryFilterDemo2 =defineAsyncComponent(() => {
   return import('../demos/query-filter/demo-2')
-});
+})
 </script>
 
 ## 基本用法
@@ -45,35 +45,34 @@ const QueryFilterDemo2 =defineAsyncComponent(() => {
 
 </details>
 
-
 ## API
 
 ### 属性
 
-| 属性                | 说明                | 类型                      | 默认值       |
-|-------------------|-------------------|-------------------------|-----------|
-| layout            | 布局                | 'default' \| 'vertical' | 'default' |
-| loading           | 加载状态              | boolean                 | false     |
-| gutter            | Antd Row 的 gutter | number                  | 24        |
-| labelWidth        | label 的宽度         | number                  | 80        |
-| submitText        | 提交按钮文字            | string                  | '查询'      |
-| resetText         | 重置按钮文字            | string                  | '重置'      |
-| collapseRender    | 是否渲染折叠按钮          | boolean                 | false     |
-| collapsed         | 折叠的状态             | boolean                 | true      |
-| defaultRowsNumber | 折叠保留的行数           | number                  | 1         |
+| 属性                | 说明                             | 类型                      | 默认值      |
+|-------------------|--------------------------------|-------------------------|----------|
+| layout            | 布局                             | 'default' \| 'vertical' | 'default' |
+| loading           | 加载状态                           | boolean                 | false    |
+| span              | 固定 Col 的 span, 传的话宽度不会随屏幕变化而变化 | number                  | -        |
+| gutter            | Antd Row 的 gutter              | number                  | 24       |
+| labelWidth        | label 的宽度                      | number \| 'auto'           | 80        |
+| submitter         | 提交按钮相关配置                       | object                  | -        |
+| collapsed         | 折叠的状态                          | boolean                 | true     |
+| showCollapse      | 是否展示折叠                         | boolean                 | false    |
+| defaultRowsNumber | 折叠保留的行数                        | number                  | 1        |
 
 ### 事件
 
-| 事件名称       | 说明    | 回调参数            |
-|------------|-------|-----------------|
-| onCollapse | 折叠的回调 | function(value) |
+| 事件名称       | 说明         | 回调参数            |
+|------------|------------|-----------------|
+| onCollapse | 折叠的回调      | function(value) |
+| onResize   | size 变化的回调 | function(value) |
 
 ### 方法
 
 | 名称                | 描述         |
 |-------------------|------------|
 | getFormInstance() | 获取 Form 实例 |
-| getValues()       | 获取值        |
 
 
 

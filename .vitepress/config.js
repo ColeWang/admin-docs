@@ -89,12 +89,8 @@ export default defineConfig({
                             link: '/module/form',
                         },
                         {
-                            text: 'ModalForm - 浮层表单',
+                            text: 'Modal/Drawer - 浮层表单',
                             link: '/module/modal-form',
-                        },
-                        {
-                            text: 'DrawerForm - 抽屉表单',
-                            link: '/module/drawer-form',
                         },
                         {
                             text: 'QueryFilter - 筛选表单',

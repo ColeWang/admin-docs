@@ -11,24 +11,24 @@ Form 在原来的 [Antd Form](https://www.antdv.com/components/form-cn) 的基�
 - Form 只是 Antd Form 的封装，如果要使用自定义的组件可以用 Antd Form.Item 包裹后使用，支持混用
 
 <script setup>
-import { defineAsyncComponent } from 'vue';
-import '../packages/style.css';
+import { defineAsyncComponent } from 'vue'
+import '../packages/style.css'
 
 const FormDemo1 = defineAsyncComponent(() => {
   return import('../demos/form/demo-1')
-});
+})
 const FormDemo2 = defineAsyncComponent(() => {
   return import('../demos/form/demo-2')
-});
+})
 const FormDemo3 = defineAsyncComponent(() => {
   return import('../demos/form/demo-3')
-});
+})
 const FormDemo4 = defineAsyncComponent(() => {
   return import('../demos/form/demo-4')
-});
+})
 const FormDemo5 = defineAsyncComponent(() => {
   return import('../demos/form/demo-5')
-});
+})
 const FormDemo6 = defineAsyncComponent(() => {
   return import('../demos/form/demo-6')
 })
@@ -116,21 +116,22 @@ const FormDemo6 = defineAsyncComponent(() => {
 
 ### 属性
 
-| 属性            | 说明                        | 类型      | 默认值                  |
-|---------------|---------------------------|---------|----------------------|
-| initialValues | 初始值 key 对应 Form.Item name | object  | -                    |
-| submitOnReset | 提交后是否重置表单数据               | boolean | false                |
-| grid          | 开启 grid 模式                | boolean | false                |
-| rowProps      | grid 模式下传递给 Antd Row      | object  | { gutter: \[32, 0] } |
+| 属性            | 说明                        | 类型       | 默认值                  |
+|---------------|---------------------------|----------|----------------------|
+| initialValues | 初始值 key 对应 Form.Item name | object   | -                    |
+| submitOnReset | 提交后是否重置表单数据               | boolean  | false                |
+| grid          | 开启 grid 模式                | boolean  | false                |
+| rowProps      | grid 模式下传递给 Antd Row      | object   | { gutter: \[32, 0] } |
+| transform     | onFinish 前对数据的处理          | function | function(values)     |
 
 ### 事件
 
-| 事件名称           | 说明           | 回调参数             |
-|----------------|--------------|------------------|
-| onValuesChange | 数据变化时回调      | function(values) |
-| onSubmit       | 提交时并且校验通过的回调 | function(values) |
-| onFinish       | 提交时并且校验通过的回调 | function(values) |
-| onReset        | 重置表单回调       | function(values) |
+| 事件名称           | 说明          | 回调参数             |
+|----------------|-------------|------------------|
+| onValuesChange | 数据变化时回调     | function(values) |
+| onSubmit       | 提交时触发       | function(event)  |
+| onFinish       | 提交并且校验通过的回调 | function(values) |
+| onReset        | 重置表单回调      | function(values) |
 
 ### 方法
 
@@ -140,17 +141,19 @@ const FormDemo6 = defineAsyncComponent(() => {
 
 ### Form 实例
 
-| 名称                          | 描述                                   |
-|-----------------------------|--------------------------------------|
-| formInstanceRef             | Form 实例对象                            |
-| model                       | 表单数据                                 |
-| formProps                   | Form props                           |
-| setModelValue(value, name?) | 设置表单数据 (name 不传视为重置全部 model = value) |
-| getModelValue(name)         | 获取表单数据                               |
-| submit()                    | 提交表单                                 |
-| validate(names)             | 校验表单                                 |
-| resetFields(names)          | 重置部分表单                               |
-| resetForm()                 | 重置整个表单                               |
+| 名称                                  | 描述         |
+|-------------------------------------|------------|
+| formInstanceRef                     | Form 实例对象  |
+| model                               | 表单数据       |
+| formProps                           | Form props |
+| setModelValue(namePath, value)      | 设置表单数据     |
+| getModelValue(namePath)             | 获取表单数据     |
+| updateModelValue(namePath, updater) | 更新表单数据     |
+| deleteModelValue(namePath)          | 删除表单数据     |
+| submit()                            | 提交表单       |
+| validate(names)                     | 校验表单       |
+| resetFields(names)                  | 重置部分表单     |
+| resetForm()                         | 重置整个表单     |
 
 ## Form.Group
 

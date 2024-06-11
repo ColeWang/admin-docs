@@ -16,8 +16,8 @@ Form 自带了一些表单项, 这些组件本质上是 [Antd Form.Item](https:/
 - width 指的是输入框的宽度，不包括 label
 
 <script setup>
-import { defineAsyncComponent } from 'vue';
-import '../packages/style.css';
+import { defineAsyncComponent } from 'vue'
+import '../packages/style.css'
 
 const FieldsDemoBasic = defineAsyncComponent(() => {
   return import('../demos/fields/demo-basic')
@@ -48,9 +48,9 @@ const FieldsDemoBasic = defineAsyncComponent(() => {
 | text          | 显示文字 和 value 对称         | any                                            | -      |
 | placeholder   | 占位符                     | string                                         | -      |
 | valueEnum     | Select 的枚举值             | object                                         | -      |
+| colProps      | 开启 grid 模式并传递给 Antd Col | object                                         | -      |
 | fieldProps    | Antd 组件的 props          | object                                         | -      |
 | formItemProps | Form.Item 组件的 props     | object                                         | -      |
-| colProps      | 开启 grid 模式并传递给 Antd Col | object                                         | -      |
 
 ```js
 const SizeEnum = {
