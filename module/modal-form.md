@@ -3,7 +3,8 @@ ModalForm - 浮层表单
 </h1>
 
 ModalForm 和 DrawerForm 是 Form 的一个变体，表现与 Form 相同，
-是 Form 于 [Antd Modal](https://www.antdv.com/components/modal-cn) 和 [Antd Drawer](https://www.antdv.com/components/drawer-cn) 的结合。
+是 Form 于 [Antd Modal](https://www.antdv.com/components/modal-cn)
+和 [Antd Drawer](https://www.antdv.com/components/drawer-cn) 的结合。
 本质上仍然是个表单，所以无法通过 footer 来自定义页脚。
 
 ---
@@ -15,37 +16,37 @@ ModalForm 和 DrawerForm 是 Form 的一个变体，表现与 Form 相同，
 import { defineAsyncComponent } from 'vue'
 import '../packages/style.css'
 
-const ModalFormDemo1 = defineAsyncComponent(() => {
-  return import('../demos/modal-form/demo-1')
+const ModalFormDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/modal-form/demo-basic')
 })
-const ModalFormDemo2 = defineAsyncComponent(() => {
-  return import('../demos/modal-form/demo-2')
+const ModalFormDemoControlled = defineAsyncComponent(() => {
+  return import('../demos/modal-form/demo-controlled')
 })
 </script>
 
 ## 基本用法
 
 <ClientOnly>
-<ModalFormDemo1></ModalFormDemo1>
+<ModalFormDemoBasic></ModalFormDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/modal-form/demo-1.jsx
+<<< @/demos/modal-form/demo-basic.jsx
 
 </details>
 
 ## 可控的
 
 <ClientOnly>
-<ModalFormDemo2></ModalFormDemo2>
+<ModalFormDemoControlled></ModalFormDemoControlled>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/modal-form/demo-2.jsx
+<<< @/demos/modal-form/demo-controlled.jsx
 
 </details>
 
@@ -60,7 +61,7 @@ const ModalFormDemo2 = defineAsyncComponent(() => {
 | title          | 标题                            | string           | -          |
 | width          | 弹框宽度                          | number           | 512        |
 | maskClosable   | 点击蒙层是否关闭                      | boolean          | true       |
-| destroyOnClose | 关闭是否销毁内容                      | boolean          | true       |
+| destroyOnClose | 关闭时是否销毁内容                     | boolean          | true       |
 | extraProps     | Modal 和 Drawer 的 Props        | object           | -          |
 | trigger        | 用于触发 Modal 打开的 dom，一般是 button | function \| slot | -          |
 | submitter      | 提交按钮相关配置                      | object           | -          |

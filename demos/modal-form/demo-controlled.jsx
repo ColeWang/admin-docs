@@ -1,25 +1,34 @@
-import { defineComponent, ref, unref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Button } from 'ant-design-vue'
-import { ModalForm, Number, Text } from '@/components/form'
+import { DrawerForm, Number, Text } from '@/components/form'
 
 export default defineComponent({
     setup () {
-        const modalFormRef = ref(null)
+        const open = ref(false)
 
         function handleClick () {
-            const context = unref(modalFormRef)
-            context && context.open()
+            open.value = true
+        }
+
+        function onFinish (values) {
+            console.log(values)
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(true)
+                }, 1000)
+            })
         }
 
         return () => {
             return (
                 <div>
                     <Button onClick={handleClick}>新建表单</Button>
-                    <ModalForm
-                        ref={modalFormRef}
-                        title={'浮层表单'}
+                    <DrawerForm
+                        v-model:open={open.value}
+                        title={'抽屉表单'}
                         grid={true}
                         width={512}
+                        onFinish={onFinish}
                     >
                         <Text
                             label={'文本'}
@@ -31,7 +40,7 @@ export default defineComponent({
                             name={'number'}
                             colProps={{ span: 12 }}
                         />
-                    </ModalForm>
+                    </DrawerForm>
                 </div>
             )
         }
