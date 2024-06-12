@@ -11,6 +11,7 @@ Table 是为了解决项目中需要写很多 table 的样板代码的问题，�
 ---
 
 - 不需要请求数据的话，可以直接填入参数 dataSource
+- 表头 Columns title 默认使用字符串，Dom 形式可能影响到设置栏的“列设置”，或者使用 v-slot:headerCell="{title, column}" 自定义 Dom 结构
 
 <script setup>
 import { defineAsyncComponent } from 'vue'
