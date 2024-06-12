@@ -10,24 +10,24 @@ Table 是为了解决项目中需要写很多 table 的样板代码的问题，�
 
 
 <script setup>
-import { defineAsyncComponent } from 'vue';
-import '../packages/style.css';
+import { defineAsyncComponent } from 'vue'
+import '../packages/style.css'
 
 const TableDemo1 = defineAsyncComponent(() => {
   return import('../demos/table/demo-1')
-});
+})
 const TableDemo2 = defineAsyncComponent(() => {
   return import('../demos/table/demo-2')
-});
+})
 const TableDemo3 = defineAsyncComponent(() => {
   return import('../demos/table/demo-3')
-});
+})
 const TableDemo4 = defineAsyncComponent(() => {
   return import('../demos/table/demo-4')
-});
+})
 const TableDemo5 = defineAsyncComponent(() => {
   return import('../demos/table/demo-5')
-});
+})
 </script>
 
 <style>
@@ -121,26 +121,34 @@ const TableDemo5 = defineAsyncComponent(() => {
 
 ### 属性
 
-| 属性                 | 说明                       | 类型                                                                             | 默认值   |
-|--------------------|--------------------------|--------------------------------------------------------------------------------|-------|
-| title              | 表单 Title                 | string \| Slot                                                                 | -     |
-| manualRequest      | 是否需要手动触发首次请求             | boolean                                                                        | false |
-| request            | 数据的获取                    | (params, paginate, filter, sort) => Promise.resolve(\{ data, success, total }) | -     |
-| params             | request的参数 修改之后会触发更新     | object                                                                         | -     |
-| beforeSearchSubmit | 表单提交前的数据处理               | (values) => values                                                             | -     |
-| postData           | 对 request 获取的数据进行处理      | (data, params, paginate, filter, sort) => \[]                                  | -     |
-| action             | Table action 的引用 便于自定义触发 | object                                                                         | -     |
-| search             | 搜索表单                     | [object](./query-filter.html#api) \| Slot \| false                             | -     |
-| toolbar            | 工具栏                      | object \| Slot \| false                                                        | -     |
+| 属性                 | 说明                     | 类型                                                                             | 默认值                    |
+|--------------------|------------------------|--------------------------------------------------------------------------------|------------------------|
+| title              | 表单 Title               | string \| Slot                                                                 | -                      |
+| rowSelection       | 行选择                    | object \| boolean                                                              | false                  |
+| scroll             | 滚动设置                   | object                                                                         | \{ x: 'max-content' \} |
+| emptyText          | 数据为空时的展示               | string                                                                         | -                      |
+| search             | 搜索表单, false 为不展示       | [object](./query-filter.html#api) \| Slot \| false                             | -                      |
+| manualRequest      | 是否需要手动触发首次请求           | boolean                                                                        | false                  |
+| request            | 数据的获取                  | (params, paginate, filter, sort) => Promise.resolve(\{ data, success, total }) | -                      |
+| params             | request 的参数 修改之后会触发更新  | object                                                                         | -                      |
+| beforeSearchSubmit | 表单提交前的数据处理             | (values) => values                                                             | -                      |
+| postData           | 对 request 获取的数据进行处理    | (data, params, paginate, filter, sort) => \[]                                  | -                      |
+| toolbar            | 是否显示工具栏                | boolean                                                                        | true                   |
+| options            | 设置栏的参数, false 为不展示     | object \| false                                                                | -                      |
+| actions            | 工具栏的扩展项, 显示在右侧, 设置栏的左侧 | function \| Slot                                                               | -                      |
+| settings           | 自定义设置栏                 | function \| Slot                                                               | -                      |
+| extra              | Table 上面的扩展栏           | function \| Slot                                                               | -                      |
+| alert              | 自定义的, 选中后操作栏的左侧        | function \| Slot                                                               | -                      |
+| alertOptions       | 选中后操作栏的右侧              | function \| Slot                                                               | -                      |
 
-### Toolbar
+### Options
 
-| 属性            | 说明      | 类型                        | 默认值  |
-|---------------|---------|---------------------------|------|
-| exportRender  | 显示导出    | boolean                   | true |
-| sizeRender    | 显示 size | boolean                   | true |
-| settingRender | 显示表头设置  | boolean                   | true |
-| onExport      | 自定义导出   | function(dom, dataSource) | -    |
+| 属性      | 说明       | 类型      | 默认值   |
+|---------|----------|---------|-------|
+| reload  | 显示刷新按钮   | boolean | true  |
+| export  | 显示导出按钮   | boolean | false |
+| density | 显示大小设置按钮 | boolean | true  |
+| setting | 自定表头设置按钮 | boolean | true  |
 
 ### 事件
 
@@ -151,11 +159,12 @@ const TableDemo5 = defineAsyncComponent(() => {
 | onFilterChange   | 过滤的回调         | function(filter)                           |
 | onSortChange     | 排序变化的回调       | function(sort)                             |
 | onLoadingChange  | loading 变化的回调 | function(value)                            |
+| onExport         | 点击导出的回调       | function(params)                           |
 | onSizeChange     | size 变化的回调    | function(size)                             |
-| settingChange    | 表头变化的回调       | function(columns)                          |
+| onColumnsChange  | 表头变化的回调       | function(columns)                          |
 | onLoad           | 数据请求成功的回调     | function(data)                             |
 | onRequestError   | 数据请求失败的回调     | function(err)                              |
-| onSubmit         | 表单提交回调        | function(values)                           |
+| onFinish         | 表单提交回调        | function(values)                           |
 | onReset          | 表单重置回调        | function(params)                           |
 
 ### 方法
@@ -163,50 +172,41 @@ const TableDemo5 = defineAsyncComponent(() => {
 | 名称                    | 描述                      |
 |-----------------------|-------------------------|
 | reload(resetCurrent?) | 重置表单 参数为 true 时分页回到 第一页 |
+| getRequestData()      | 获取筛选项的数据                |
+| cleanSelected()       | 取消选中                    |
 
 ## Columns 列定义
 
-| 名称            | 描述                        | 类型                                             | 默认值    |
-|---------------|---------------------------|------------------------------------------------|--------|
-| title         | 列头显示文字                    | string                                         | -      |
-| dataIndex     | 列数据在数据项中对应的路径             | string                                         | -      |
-| key           | dataIndex 的变体             | string                                         | -      |
-| customRender  | 渲染函数                      | function(text, record, number, action, column) | -      |
-| filters       | 表头的筛选菜单项                  | object\[]                                      | -      |
-| sorter        | 排序函数                      | function \| boolean                            | -      |
-| onFilter      | 作为 filter 事件使用            | function                                       | -      |
-| fixed         | 固定列                       | 'left' \| 'right'                              | -      |
-| width         | 列宽度                       | string \| number                               | -      |
-| ellipsis      | 自动省略                      | boolean \| { showTitle?\: boolean }            | false  |
-| copyable      | 可复制的                      | boolean                                        | false  |
-| disable       | 禁用表头的 显示隐藏                | boolean                                        | false  |
-| search        | 是否为搜索项                    | boolean                                        | false  |
-| hideInTable   | 在 Table 中隐藏               | boolean                                        | false  |
-| valueType     | 搜索的输入框类型                  | string                                         | 'text' |
-| initialValue  | 初始值                       | all                                            | -      |
-| valueEnum     | 选择框的枚举值 同时也根据 value 返回对应项 | object                                         | -      |
-| fieldProps    | 输入框的 props                | object                                         | -      |
-| formItemProps | Form.Item 的 props         | object                                         | -      |
+| 名称            | 描述                        | 类型                                     | 默认值    |
+|---------------|---------------------------|----------------------------------------|--------|
+| title         | 列头显示文字                    | string                                 | -      |
+| dataIndex     | 列数据在数据项中对应的路径             | string                                 | -      |
+| key           | dataIndex 的变体             | string                                 | -      |
+| customRender  | 渲染函数                      | function(text, record, number, column) | -      |
+| filters       | 表头的筛选菜单项                  | object\[]                              | -      |
+| sorter        | 排序函数                      | function \| boolean                    | -      |
+| onFilter      | 作为 filter 事件使用            | function                               | -      |
+| fixed         | 固定列                       | 'left' \| 'right'                      | -      |
+| width         | 列宽度                       | string \| number                       | -      |
+| ellipsis      | 自动省略                      | boolean \| { showTitle?\: boolean }    | false  |
+| copyable      | 可复制的                      | boolean                                | false  |
+| disable       | 禁用表头的 显示隐藏                | boolean                                | false  |
+| search        | 是否为搜索项                    | boolean                                | false  |
+| hideInTable   | 在 Table 中隐藏               | boolean                                | false  |
+| valueType     | 搜索的输入框类型                  | string                                 | 'text' |
+| initialValue  | 初始值                       | all                                    | -      |
+| valueEnum     | 选择框的枚举值 同时也根据 value 返回对应项 | object                                 | -      |
+| fieldProps    | 输入框的 props                | object                                 | -      |
+| formItemProps | Form.Item 的 props         | object                                 | -      |
 
-## valueType 值类型
-
-| 名称        | 描述             |
-|-----------|----------------|
-| text      | Text 组件        |
-| number    | Number 组件      |
-| select    | Select 组件      |
-| textarea  | TextArea 组件    |
-| date      | DatePicker 组件  |
-| dateRange | RangePicker 组件 |
-
-## Action
+## Action.Group
 
 | 属性   | 说明                | 类型     | 默认值 |
 |------|-------------------|--------|-----|
-| max  | 子元素超过 max 将生成下拉菜单 | number | 3   |
+| max  | 子元素超过 max 将生成下拉菜单 | number | 2   |
 | size | 间距                | number | 8   |
 
-## Action.Item
+## Action
 
 | 属性   | 说明 | 类型                                | 默认值       |
 |------|----|-----------------------------------|-----------|

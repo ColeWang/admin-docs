@@ -54,17 +54,17 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 
 ### 属性
 
-| 属性             | 说明                            | 类型               | 默认值        |
-|----------------|-------------------------------|------------------|------------|
-| layout         | 布局模式                          | string           | 'vertical' |
-| open(v-model)  | 对话框是否可见                       | boolean          | false      |
-| title          | 标题                            | string           | -          |
-| width          | 弹框宽度                          | number           | 512        |
-| maskClosable   | 点击蒙层是否关闭                      | boolean          | true       |
-| destroyOnClose | 关闭时是否销毁内容                     | boolean          | true       |
-| extraProps     | Modal 和 Drawer 的 Props        | object           | -          |
-| trigger        | 用于触发 Modal 打开的 dom，一般是 button | function \| slot | -          |
-| submitter      | 提交按钮相关配置                      | object           | -          |
+| 属性             | 说明                            | 类型                                     | 默认值        |
+|----------------|-------------------------------|----------------------------------------|------------|
+| layout         | 布局模式                          | 'horizontal' \| 'vertical' \| 'inline' | 'vertical' |
+| open(v-model)  | 对话框是否可见                       | boolean                                | false      |
+| title          | 标题                            | string                                 | -          |
+| width          | 弹框宽度                          | number                                 | 512        |
+| maskClosable   | 点击蒙层是否关闭                      | boolean                                | true       |
+| destroyOnClose | 关闭时是否销毁内容                     | boolean                                | true       |
+| extraProps     | Modal 和 Drawer 的 Props        | object                                 | -          |
+| trigger        | 用于触发 Modal 打开的 dom，一般是 button | function \| slot                       | -          |
+| submitter      | 提交按钮相关配置                      | object                                 | -          |
 
 ### 事件
 

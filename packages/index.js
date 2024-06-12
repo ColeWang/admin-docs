@@ -4,9 +4,9 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { defineComponent, ref, createVNode, Transition, withDirectives, vShow, unref, render, mergeProps, getCurrentInstance, watch, isVNode, Fragment, withModifiers, nextTick, createTextVNode, computed, onMounted, onBeforeUnmount, inject, provide, isProxy, toRaw, Comment, getCurrentScope, onScopeDispose, cloneVNode, shallowReactive, shallowRef, h } from "vue";
-import { isString, isArray, isObject, isFunction, isNil, reverse, head, last, dropRight, isBoolean, isEqual, isNaN, omitBy, fromPairs, map, get, cloneWith, cloneDeep, isSymbol, compact, isNumber, isUndefined, pick, set, update, unset, clone, transform, debounce, reduce, toString, omit, has, take, takeRight } from "lodash-es";
-import { Menu, Button, Dropdown, Breadcrumb as Breadcrumb$1, Avatar as Avatar$1, Space, DatePicker, RangePicker, TimePicker, TimeRangePicker, Badge, Select as Select$1, TreeSelect as TreeSelect$1, Cascader as Cascader$1, Radio as Radio$1, Checkbox as Checkbox$1, Switch as Switch$1, Slider as Slider$1, InputNumber, Input, Table as Table$1, Row, Form as Form$1, ConfigProvider, Col, Modal, Drawer, Card, Tooltip as Tooltip$1, Tree, Popover, TypographyText, Descriptions as Descriptions$1, Spin } from "ant-design-vue";
+import { defineComponent, ref, createVNode, Transition, withDirectives, vShow, unref, render, mergeProps, getCurrentInstance, watch, isVNode, Fragment, withModifiers, nextTick, createTextVNode, computed, onMounted, onBeforeUnmount, inject, provide, isProxy, toRaw, Comment, getCurrentScope, onScopeDispose, shallowReactive, cloneVNode, shallowRef, h } from "vue";
+import { isString, isArray, isObject, isFunction, isNil, reverse, head, last, dropRight, isBoolean, isEqual, isNaN, omitBy, fromPairs, map, get, cloneWith, cloneDeep, isSymbol, compact, isNumber, isUndefined, omit, pick, set, update, unset, clone, transform, debounce, reduce, toString, has, take, takeRight } from "lodash-es";
+import { Menu, Button, Dropdown, Breadcrumb as Breadcrumb$1, Avatar as Avatar$1, Space, DatePicker, RangePicker, TimePicker, TimeRangePicker, Badge, Select as Select$1, TreeSelect as TreeSelect$1, Cascader as Cascader$1, Radio as Radio$1, Checkbox as Checkbox$1, Switch as Switch$1, Slider as Slider$1, InputNumber, Input, Descriptions as Descriptions$1, ConfigProvider, Spin, Form as Form$1, Table as Table$1, Row, Col, Modal, Drawer, Card, Tooltip as Tooltip$1, Tree, Popover, TypographyText } from "ant-design-vue";
 import Icon, { createFromIconfontCN, CloseOutlined, LeftOutlined, RightOutlined, CloseCircleOutlined, UserOutlined, CaretDownOutlined, SettingOutlined, LoginOutlined, EyeOutlined, EyeInvisibleOutlined, DownOutlined, UpOutlined, ColumnHeightOutlined, VerticalAlignTopOutlined, VerticalAlignMiddleOutlined, VerticalAlignBottomOutlined, ReloadOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 function classNames(...args) {
@@ -2423,7 +2423,257 @@ const BaseField = /* @__PURE__ */ defineComponent({
     };
   }
 });
+function tryOnScopeDispose(stop) {
+  const scope = getCurrentScope();
+  scope && onScopeDispose(stop);
+  return scope;
+}
+function useFetchData$1(request, props, options) {
+  const { manualRequest, onLoad, onRequestError } = options || {};
+  const context = shallowReactive({
+    loading: false,
+    dataSource: props.dataSource || {}
+  });
+  !manualRequest && fetchData();
+  async function fetchData() {
+    if (!isFunction(request) || context.loading)
+      return;
+    context.loading = true;
+    try {
+      const { success, data } = await request(props.params);
+      if (success !== false) {
+        context.dataSource = data || {};
+        onLoad && onLoad(data);
+      }
+    } catch (err) {
+      if (!onRequestError)
+        throw new Error(err);
+      onRequestError && onRequestError(err);
+    } finally {
+      context.loading = false;
+    }
+  }
+  const stopWatchDataSource = watch(() => props.dataSource, (value) => {
+    context.dataSource = value || {};
+  }, { immediate: true });
+  function onReload() {
+    fetchData();
+  }
+  function onStop() {
+    stopWatchDataSource && stopWatchDataSource();
+  }
+  tryOnScopeDispose(onStop);
+  return { context, onReload };
+}
+const descriptions = "_descriptions_ged24_5";
+const styles$a = {
+  "popup-container": "_popup-container_ged24_1",
+  descriptions,
+  "descriptions-header": "_descriptions-header_ged24_9",
+  "descriptions-title": "_descriptions-title_ged24_14",
+  "descriptions-extra": "_descriptions-extra_ged24_24"
+};
+function _isSlot$a(s) {
+  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
+}
+const cx$c = classNames.bind(styles$a);
+const FIELD_MODE = "read";
 const extraProps$2 = {
+  dataSource: {
+    type: Object,
+    default: () => ({})
+  },
+  columns: {
+    type: Array,
+    default: () => []
+  },
+  emptyText: {
+    type: String,
+    default: "-"
+  }
+};
+const Descriptions = /* @__PURE__ */ defineComponent({
+  inheritAttrs: false,
+  props: {
+    ...Descriptions$1.props,
+    ...extraProps$2,
+    request: {
+      type: Function,
+      default: void 0
+    },
+    params: {
+      type: Object,
+      default: () => ({})
+    },
+    onLoad: {
+      type: Function,
+      default: void 0
+    },
+    onRequestError: {
+      type: Function,
+      default: void 0
+    }
+  },
+  emits: ["load", "requestError"],
+  setup(props, {
+    attrs,
+    emit,
+    slots,
+    expose
+  }) {
+    const popupContainer = ref(null);
+    const {
+      context: requestProps,
+      onReload
+    } = useFetchData$1(props.request, props, {
+      manualRequest: !props.request,
+      onLoad: (dataSource) => emit("load", dataSource),
+      onRequestError: (err) => emit("requestError", err)
+    });
+    function schemaToDescsItem(columns, emptyText) {
+      return columns.map((item, index2) => {
+        const {
+          fieldProps,
+          formItemProps,
+          __SLOTS__: itemSlots
+        } = item;
+        const {
+          valueType,
+          dataIndex,
+          name,
+          label
+        } = item;
+        const namePath = dataIndex || name || item.key;
+        const title = isFunction(item.title) ? item.title() : item.title || label;
+        const descsItemProps = {
+          ...pick(item, Object.keys(Descriptions$1.Item.props)),
+          key: item.key || label || index2,
+          label: title
+        };
+        const needItemSlots = pick(itemSlots, ["label"]);
+        if (!valueType && !namePath) {
+          const children = itemSlots.default && itemSlots.default(requestProps.dataSource);
+          return createVNode(Descriptions$1.Item, descsItemProps, {
+            default: () => [children ?? emptyText],
+            ...needItemSlots
+          });
+        }
+        const needFormItemProps = {
+          ...pick(item, Object.keys(Form$1.Item.props)),
+          ...formItemProps,
+          name: namePath,
+          model: requestProps.dataSource
+        };
+        const needFieldProps = {
+          ...pick(item, Object.keys(BaseField.props)),
+          mode: FIELD_MODE,
+          emptyText,
+          fieldProps,
+          formItemProps: needFormItemProps
+        };
+        const fieldSlots = omit(itemSlots, ["label"]);
+        return createVNode(Descriptions$1.Item, descsItemProps, {
+          default: () => [createVNode(BaseField, needFieldProps, fieldSlots)],
+          ...needItemSlots
+        });
+      });
+    }
+    function getColumns(children, columns) {
+      const childrenColumns = children.map((item) => {
+        const slots2 = omit(item.children || {}, ["_ctx"]);
+        return {
+          ...item.props,
+          __SLOTS__: slots2
+        };
+      });
+      const needColumns = [...columns, ...childrenColumns].filter((item) => {
+        return !item.hide || !item.hideInDescriptions;
+      });
+      return needColumns.sort((a, b) => {
+        return (a.order || 0) - (b.order || 0);
+      });
+    }
+    function getPopupContainer() {
+      const plain = unref(popupContainer);
+      return plain ? plain.$el || plain : plain;
+    }
+    expose({
+      reload: onReload
+    });
+    return () => {
+      const {
+        columns,
+        emptyText
+      } = props;
+      const nodes = filterEmptyElement(slots.default ? slots.default() : []);
+      const schemaColumns = getColumns(nodes, columns);
+      const children = schemaToDescsItem(schemaColumns, emptyText);
+      const slotScope = {
+        loading: requestProps.loading,
+        data: requestProps.dataSource
+      };
+      const titleDom = getPropsSlot(slots, props, "title", slotScope);
+      const extraDom = getPropsSlot(slots, props, "extra", slotScope);
+      const restProps = omit(props, ["title", "extra"]);
+      const needDescsProps = {
+        ...pick(restProps, Object.keys(Descriptions$1.props)),
+        ...attrs
+      };
+      return createVNode("div", {
+        "class": cx$c("descriptions")
+      }, [createVNode(ConfigProvider, {
+        "getPopupContainer": getPopupContainer
+      }, {
+        default: () => [createVNode("div", {
+          "class": cx$c("popup-container"),
+          "ref": popupContainer
+        }, [(titleDom || extraDom) && createVNode("div", {
+          "class": cx$c("descriptions-header")
+        }, [createVNode("div", {
+          "class": cx$c("descriptions-title")
+        }, [titleDom]), createVNode("div", {
+          "class": cx$c("descriptions-extra")
+        }, [createVNode(Space, {
+          "size": 8
+        }, _isSlot$a(extraDom) ? extraDom : {
+          default: () => [extraDom]
+        })])]), createVNode(Spin, {
+          "spinning": requestProps.loading
+        }, {
+          default: () => [createVNode(Descriptions$1, needDescsProps, _isSlot$a(children) ? children : {
+            default: () => [children]
+          })]
+        })])]
+      })]);
+    };
+  }
+});
+const Item$1 = /* @__PURE__ */ defineComponent({
+  inheritAttrs: false,
+  name: "DescriptionsItem",
+  props: {
+    ...BaseField.props,
+    ...Form$1.Item.props,
+    ...Descriptions$1.Item.props,
+    hide: {
+      type: Boolean,
+      default: false
+    },
+    order: {
+      type: Number,
+      default: void 0
+    }
+  },
+  setup(_, {
+    slots
+  }) {
+    return () => {
+      return slots.default && slots.default();
+    };
+  }
+});
+Descriptions.Item = Item$1;
+const extraProps$1 = {
   title: {
     type: Function,
     default: void 0
@@ -2447,7 +2697,7 @@ const extraProps$2 = {
 };
 const tableProps = {
   ...Table$1.props,
-  ...extraProps$2,
+  ...extraProps$1,
   manualRequest: {
     type: Boolean,
     default: false
@@ -2549,7 +2799,7 @@ const tableProps = {
     default: void 0
   }
 };
-function _isSlot$a(s) {
+function _isSlot$9(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const RowWrap = /* @__PURE__ */ defineComponent({
@@ -2572,7 +2822,7 @@ const RowWrap = /* @__PURE__ */ defineComponent({
       const children = slots.default && slots.default();
       if (!grid)
         return createVNode(Fragment, null, [children]);
-      return createVNode(Row, restProps, _isSlot$a(children) ? children : {
+      return createVNode(Row, restProps, _isSlot$9(children) ? children : {
         default: () => [children]
       });
     };
@@ -2585,10 +2835,10 @@ function createFromInstance(instance) {
 function useFormInstance() {
   return inject(BaseKey$1, {});
 }
-const styles$a = {
+const styles$9 = {
   "form-wrap": "_form-wrap_ygcln_1"
 };
-const cx$c = classNames.bind(styles$a);
+const cx$b = classNames.bind(styles$9);
 const baseFormProps = {
   ...Form$1.props,
   initialValues: {
@@ -2768,7 +3018,7 @@ const BaseForm = /* @__PURE__ */ defineComponent({
         "getPopupContainer": getPopupContainer
       }, {
         default: () => [createVNode("div", {
-          "class": cx$c("form-wrap"),
+          "class": cx$b("form-wrap"),
           "ref": popupContainer
         }, [createVNode(Form$1, mergeProps(formProps2, {
           "ref": formInstanceRef
@@ -2904,7 +3154,7 @@ const Form = /* @__PURE__ */ defineComponent({
     };
   }
 });
-function _isSlot$9(s) {
+function _isSlot$8(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const ColWrap = /* @__PURE__ */ defineComponent({
@@ -2931,13 +3181,13 @@ const ColWrap = /* @__PURE__ */ defineComponent({
       }
       if (!grid)
         return createVNode(Fragment, null, [children]);
-      return createVNode(Col, originProps, _isSlot$9(children) ? children : {
+      return createVNode(Col, originProps, _isSlot$8(children) ? children : {
         default: () => [children]
       });
     };
   }
 });
-const Item$1 = /* @__PURE__ */ defineComponent({
+const Item = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
     ...Form$1.Item.props,
@@ -3090,16 +3340,11 @@ const Group$1 = /* @__PURE__ */ defineComponent({
   }
 });
 Form.useForm = Form$1.useForm;
-Form.Item = Item$1;
+Form.Item = Item;
 Form.Group = Group$1;
 Form.List = List;
 Form.Dependency = Dependency;
 const useForm = Form$1.useForm;
-function tryOnScopeDispose(stop) {
-  const scope = getCurrentScope();
-  scope && onScopeDispose(stop);
-  return scope;
-}
 function useResizeObserver(target, callback, options) {
   let observer = void 0;
   function cleanup() {
@@ -3177,10 +3422,10 @@ const ResizeObserver$1 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const styles$9 = {
+const styles$8 = {
   "collapse-button": "_collapse-button_1rqak_1"
 };
-const cx$b = classNames.bind(styles$9);
+const cx$a = classNames.bind(styles$8);
 const Actions = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -3215,44 +3460,36 @@ const Actions = /* @__PURE__ */ defineComponent({
   },
   emits: ["submit", "reset", "collapse"],
   setup(props, {
-    emit
+    emit,
+    attrs
   }) {
     const {
       t
     } = useLocaleReceiver(["Form"]);
-    function onSubmit(evt) {
-      emit("submit", evt);
-    }
-    function onReset(evt) {
-      emit("reset", evt);
-    }
     function onCollapse() {
       emit("collapse", !props.collapsed);
     }
     return () => {
       const {
-        loading: loading2,
         collapsed,
         showCollapse,
         submitter
       } = props;
       const collapseDom = showCollapse && createVNode(Button, {
-        "class": cx$b("collapse-button"),
+        "class": cx$a("collapse-button"),
         "type": "link",
         "onClick": onCollapse
       }, {
         default: () => [createVNode("span", null, [!collapsed ? t("expand") : t("collapsed")]), collapsed ? createVNode(DownOutlined, null, null) : createVNode(UpOutlined, null, null)]
       });
       const submitterProps2 = {
+        ...pick(props, Object.keys(Submitter.props)),
         ...pick(submitter, Object.keys(Submitter.props)),
-        submitText: submitter.submitText || t("search"),
-        loading: loading2,
-        onSubmit,
-        onReset
+        submitText: submitter.submitText || t("search")
       };
-      return createVNode(Space, {
+      return createVNode(Space, mergeProps({
         "size": 10
-      }, {
+      }, attrs), {
         default: () => [createVNode(Submitter, submitterProps2, null), collapseDom]
       });
     };
@@ -3372,16 +3609,16 @@ function namePathToString(namePath) {
   }
   return toString(namePath);
 }
-const styles$8 = {
+const styles$7 = {
   "query-filter": "_query-filter_15dew_1",
   "form-item__vertical": "_form-item__vertical_15dew_8",
   "action-col": "_action-col_15dew_11",
   "col-hidden": "_col-hidden_15dew_14"
 };
-function _isSlot$8(s) {
+function _isSlot$7(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const cx$a = classNames.bind(styles$8);
+const cx$9 = classNames.bind(styles$7);
 const queryFilterProps = {
   ...BaseForm.props,
   ...Actions.props,
@@ -3475,14 +3712,14 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
           hidden,
           key
         } = item;
-        const colClass = cx$a({
+        const colClass = cx$9({
           "col-hidden": hidden
         });
         return createVNode(Col, {
           "key": key,
           "class": colClass,
           "span": unref(span)
-        }, _isSlot$8(child) ? child : {
+        }, _isSlot$7(child) ? child : {
           default: () => [child]
         });
       });
@@ -3498,7 +3735,7 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
         onReset,
         onCollapse
       };
-      const formItemClass = cx$a({
+      const formItemClass = cx$9({
         "form-item__vertical": unref(layout) === "vertical" && !haveRow
       });
       return createVNode(BaseForm, mergeProps(baseFormProps2, {
@@ -3509,12 +3746,12 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
         }, {
           default: () => [createVNode(Row, {
             "gutter": gutter,
-            "class": cx$a("query-filter"),
+            "class": cx$9("query-filter"),
             "justify": "start"
           }, {
             default: () => [colNodes, createVNode(Col, {
               "key": "action",
-              "class": cx$a("action-col"),
+              "class": cx$9("action-col"),
               "span": unref(span),
               "offset": offset
             }, {
@@ -3531,7 +3768,7 @@ const QueryFilter = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const extraProps$1 = {
+const extraProps = {
   layout: {
     type: String,
     default: "vertical"
@@ -3559,7 +3796,7 @@ const extraProps$1 = {
 };
 const floatProps = {
   ...BaseForm.props,
-  ...extraProps$1,
+  ...extraProps,
   extraProps: {
     type: Object,
     default: () => ({})
@@ -4063,7 +4300,7 @@ const BaseSearch = /* @__PURE__ */ defineComponent({
     };
   }
 });
-function _isSlot$7(s) {
+function _isSlot$6(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 function filterSearchColumns(columns) {
@@ -4097,7 +4334,7 @@ const Search = /* @__PURE__ */ defineComponent({
         ...pick(props, Object.keys(BaseSearch.props)),
         initialValues
       };
-      return createVNode(BaseSearch, baseSearchProps, _isSlot$7(_slot = unref(searchColumns).map((column) => {
+      return createVNode(BaseSearch, baseSearchProps, _isSlot$6(_slot = unref(searchColumns).map((column) => {
         const {
           fieldProps,
           formItemProps
@@ -4129,10 +4366,10 @@ const Search = /* @__PURE__ */ defineComponent({
   }
 });
 const extra = "_extra_1ymdl_1";
-const styles$7 = {
+const styles$6 = {
   extra
 };
-const cx$9 = classNames.bind(styles$7);
+const cx$8 = classNames.bind(styles$6);
 const Extra = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   setup(props, {
@@ -4140,7 +4377,7 @@ const Extra = /* @__PURE__ */ defineComponent({
   }) {
     return () => {
       return createVNode("div", {
-        "class": cx$9("extra")
+        "class": cx$8("extra")
       }, [slots.default && slots.default()]);
     };
   }
@@ -4152,7 +4389,7 @@ function createSharedContext(instance) {
 function useSharedContext() {
   return inject(BaseKey, {});
 }
-function _isSlot$6(s) {
+function _isSlot$5(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
 const Density = /* @__PURE__ */ defineComponent({
@@ -4184,15 +4421,15 @@ const Density = /* @__PURE__ */ defineComponent({
           return createVNode(Menu, menuProps, {
             default: () => [createVNode(Menu.Item, {
               "key": "large"
-            }, _isSlot$6(_slot = t("densityLarger")) ? _slot : {
+            }, _isSlot$5(_slot = t("densityLarger")) ? _slot : {
               default: () => [_slot]
             }), createVNode(Menu.Item, {
               "key": "middle"
-            }, _isSlot$6(_slot2 = t("densityMiddle")) ? _slot2 : {
+            }, _isSlot$5(_slot2 = t("densityMiddle")) ? _slot2 : {
               default: () => [_slot2]
             }), createVNode(Menu.Item, {
               "key": "small"
-            }, _isSlot$6(_slot3 = t("densitySmall")) ? _slot3 : {
+            }, _isSlot$5(_slot3 = t("densitySmall")) ? _slot3 : {
               default: () => [_slot3]
             })]
           });
@@ -4257,14 +4494,14 @@ const Tooltip = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const styles$6 = {
+const styles$5 = {
   "tree-list": "_tree-list_197kf_1",
   "tree-list-title": "_tree-list-title_197kf_1",
   "tree-node": "_tree-node_197kf_7",
   "tree-node-title": "_tree-node-title_197kf_12",
   "tree-node-option": "_tree-node-option_197kf_19"
 };
-const cx$8 = classNames.bind(styles$6);
+const cx$7 = classNames.bind(styles$5);
 const TreeNode = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -4326,16 +4563,16 @@ const TreeNode = /* @__PURE__ */ defineComponent({
         })]
       });
       return createVNode("div", {
-        "class": cx$8("tree-node")
+        "class": cx$7("tree-node")
       }, [createVNode("div", {
-        "class": cx$8("tree-node-title")
+        "class": cx$7("tree-node-title")
       }, [title]), createVNode("div", {
-        "class": cx$8("tree-node-option")
+        "class": cx$7("tree-node-option")
       }, [!attrs.disabled && iconDom])]);
     };
   }
 });
-const cx$7 = classNames.bind(styles$6);
+const cx$6 = classNames.bind(styles$5);
 const TreeList = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -4456,21 +4693,21 @@ const TreeList = /* @__PURE__ */ defineComponent({
         onDrop: onTreeNodeDrop
       };
       return createVNode("div", {
-        "class": cx$7("tree-list")
+        "class": cx$6("tree-list")
       }, [showTitle && createVNode("div", {
-        "class": cx$7("tree-list-title")
+        "class": cx$6("tree-list-title")
       }, [title]), createVNode(Tree, needTreeProps, treeSlots)]);
     };
   }
 });
-const styles$5 = {
+const styles$4 = {
   "column-setting-title": "_column-setting-title_5rp1x_1",
   "tree-list-group": "_tree-list-group_5rp1x_8"
 };
-function _isSlot$5(s) {
+function _isSlot$4(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const cx$6 = classNames.bind(styles$5);
+const cx$5 = classNames.bind(styles$4);
 const ColumnSetting = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -4554,12 +4791,12 @@ const ColumnSetting = /* @__PURE__ */ defineComponent({
           const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length;
           const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length;
           return createVNode("div", {
-            "class": cx$6("column-setting-title")
+            "class": cx$5("column-setting-title")
           }, [createVNode(Checkbox$1, {
             "indeterminate": indeterminate,
             "checked": checked,
             "onChange": onCheckClick
-          }, _isSlot$5(_slot = t("columnDisplay")) ? _slot : {
+          }, _isSlot$4(_slot = t("columnDisplay")) ? _slot : {
             default: () => [_slot]
           }), createVNode(Button, {
             "style": {
@@ -4567,7 +4804,7 @@ const ColumnSetting = /* @__PURE__ */ defineComponent({
             },
             "type": "link",
             "onClick": onClearClick
-          }, _isSlot$5(_slot2 = t("reset")) ? _slot2 : {
+          }, _isSlot$4(_slot2 = t("reset")) ? _slot2 : {
             default: () => [_slot2]
           })]);
         },
@@ -4584,7 +4821,7 @@ const ColumnSetting = /* @__PURE__ */ defineComponent({
             onDropChange
           };
           return createVNode("div", {
-            "class": cx$6("tree-list-group")
+            "class": cx$5("tree-list-group")
           }, [createVNode(TreeList, mergeProps({
             "fixed": "left",
             "title": t("leftPin"),
@@ -4617,16 +4854,16 @@ const ColumnSetting = /* @__PURE__ */ defineComponent({
   }
 });
 const toolbar = "_toolbar_139xk_14";
-const styles$4 = {
+const styles$3 = {
   "popup-container": "_popup-container_139xk_1",
   toolbar,
   "toolbar-title": "_toolbar-title_139xk_19",
   "toolbar-actions": "_toolbar-actions_139xk_28"
 };
-function _isSlot$4(s) {
+function _isSlot$3(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const cx$5 = classNames.bind(styles$4);
+const cx$4 = classNames.bind(styles$3);
 const defaultOptions = {
   reload: true,
   export: false,
@@ -4731,17 +4968,17 @@ const Toolbar = /* @__PURE__ */ defineComponent({
         "getPopupContainer": getPopupContainer
       }, {
         default: () => [createVNode("div", {
-          "class": cx$5("popup-container"),
+          "class": cx$4("popup-container"),
           "ref": popupContainer
         }, [createVNode("div", {
-          "class": cx$5("toolbar")
+          "class": cx$4("toolbar")
         }, [createVNode("div", {
-          "class": cx$5("toolbar-title")
+          "class": cx$4("toolbar-title")
         }, [titleDom]), createVNode("div", {
-          "class": cx$5("toolbar-actions")
+          "class": cx$4("toolbar-actions")
         }, [createVNode(Space, {
           "size": 8
-        }, _isSlot$4(actionsDom) ? actionsDom : {
+        }, _isSlot$3(actionsDom) ? actionsDom : {
           default: () => [actionsDom]
         }), propsOptions !== false && renderSettings()])])])]
       });
@@ -4752,13 +4989,13 @@ const action = "_action_ggzx2_1";
 const action__primary = "_action__primary_ggzx2_10";
 const action__warning = "_action__warning_ggzx2_19";
 const action__error = "_action__error_ggzx2_28";
-const styles$3 = {
+const styles$2 = {
   action,
   action__primary,
   action__warning,
   action__error
 };
-const cx$4 = classNames.bind(styles$3);
+const cx$3 = classNames.bind(styles$2);
 const Action = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -4780,7 +5017,7 @@ const Action = /* @__PURE__ */ defineComponent({
       emit("click", evt);
     }
     return () => {
-      const actionClass = cx$4("action", {
+      const actionClass = cx$3("action", {
         "action__primary": props.type === "primary",
         "action__warning": props.type === "warning",
         "action__error": props.type === "error"
@@ -4792,10 +5029,10 @@ const Action = /* @__PURE__ */ defineComponent({
     };
   }
 });
-function _isSlot$3(s) {
+function _isSlot$2(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const cx$3 = classNames.bind(styles$3);
+const cx$2 = classNames.bind(styles$2);
 const Group = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -4826,8 +5063,8 @@ const Group = /* @__PURE__ */ defineComponent({
             let _slot;
             return createVNode(Menu, {
               "selectedKeys": []
-            }, _isSlot$3(_slot = secondNodes.map((item) => {
-              return createVNode(Menu.Item, null, _isSlot$3(item) ? item : {
+            }, _isSlot$2(_slot = secondNodes.map((item) => {
+              return createVNode(Menu.Item, null, _isSlot$2(item) ? item : {
                 default: () => [item]
               });
             })) ? _slot : {
@@ -4840,13 +5077,13 @@ const Group = /* @__PURE__ */ defineComponent({
             "placement": "bottomRight"
           }, {
             default: () => [createVNode("a", {
-              "class": cx$3("action", "action__primary")
+              "class": cx$2("action", "action__primary")
             }, [createTextVNode("...")])],
             ...dropdownSlots
           })]
         });
       }
-      return createVNode(Space, restProps, _isSlot$3(nodes) ? nodes : {
+      return createVNode(Space, restProps, _isSlot$2(nodes) ? nodes : {
         default: () => [nodes]
       });
     };
@@ -4854,7 +5091,7 @@ const Group = /* @__PURE__ */ defineComponent({
 });
 Action.Group = Group;
 const alert = "_alert_4h9gu_5";
-const styles$2 = {
+const styles$1 = {
   "popup-container": "_popup-container_4h9gu_1",
   alert,
   "alert-container": "_alert-container_4h9gu_12",
@@ -4862,10 +5099,10 @@ const styles$2 = {
   "alert-content": "_alert-content_4h9gu_24",
   "alert-options": "_alert-options_4h9gu_30"
 };
-function _isSlot$2(s) {
+function _isSlot$1(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const cx$2 = classNames.bind(styles$2);
+const cx$1 = classNames.bind(styles$1);
 const Alert = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: {
@@ -4916,7 +5153,7 @@ const Alert = /* @__PURE__ */ defineComponent({
       }, {
         default: () => [createVNode(Fragment, null, [contentText]), createVNode(Action, {
           "onClick": onCleanSelected
-        }, _isSlot$2(_slot = t("clear")) ? _slot : {
+        }, _isSlot$1(_slot = t("clear")) ? _slot : {
           default: () => [_slot]
         })]
       });
@@ -4928,24 +5165,24 @@ const Alert = /* @__PURE__ */ defineComponent({
       const customContent = getSlotVNode(slots, props, "default", slotScope);
       const optionsDom = getSlotVNode(slots, props, "options", slotScope);
       return createVNode("div", {
-        "class": cx$2("alert")
+        "class": cx$1("alert")
       }, [createVNode(ConfigProvider, {
         "getPopupContainer": getPopupContainer
       }, {
         default: () => [createVNode("div", {
-          "class": cx$2("popup-container"),
+          "class": cx$1("popup-container"),
           "ref": popupContainer
         }, [createVNode("div", {
-          "class": cx$2("alert-container")
+          "class": cx$1("alert-container")
         }, [createVNode("div", {
-          "class": cx$2("alert-info-wrap")
+          "class": cx$1("alert-info-wrap")
         }, [createVNode("div", {
-          "class": cx$2("alert-content")
+          "class": cx$1("alert-content")
         }, [customContent || defaultContent]), createVNode("div", {
-          "class": cx$2("alert-options")
+          "class": cx$1("alert-options")
         }, [createVNode(Space, {
           "size": 16
-        }, _isSlot$2(optionsDom) ? optionsDom : {
+        }, _isSlot$1(optionsDom) ? optionsDom : {
           default: () => [optionsDom]
         })])])])])]
       })]);
@@ -4975,7 +5212,7 @@ function validatePaginate(paginate) {
   const nextCurrent = overflow ? maxCurrent : current;
   return { ...paginate, current: nextCurrent };
 }
-function useFetchData$1(request, props, options) {
+function useFetchData(request, props, options) {
   const { t } = useLocaleReceiver(["Table", "pagination"]);
   const { onLoad, onRequestError } = options || {};
   const context = shallowReactive({
@@ -5177,13 +5414,13 @@ function useRowSelection(props) {
   }
   return { rowSelection, onCleanSelected };
 }
-const styles$1 = {
+const styles = {
   "popup-container": "_popup-container_116in_1"
 };
-function _isSlot$1(s) {
+function _isSlot(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
 }
-const cx$1 = classNames.bind(styles$1);
+const cx = classNames.bind(styles);
 const BaseTableSize = "small";
 const Table = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
@@ -5206,7 +5443,7 @@ const Table = /* @__PURE__ */ defineComponent({
       setPaginate,
       setFilter,
       setSort
-    } = useFetchData$1(props.request, props, {
+    } = useFetchData(props.request, props, {
       onLoad: (dataSource) => emit("load", dataSource),
       onRequestError: (err) => emit("requestError", err)
     });
@@ -5290,16 +5527,17 @@ const Table = /* @__PURE__ */ defineComponent({
       }
       emit("finish", nextValues);
     }
-    function onReset(params) {
-      emit("reset", params);
+    function onReset(value) {
+      emit("reset", value);
     }
     function onExport() {
-      const requestData = getRequestData && getRequestData();
-      emit("export", {
-        requestData: requestData || {},
+      const data = getRequestData && getRequestData();
+      const exportParams = {
         pageData: requestProps.dataSource,
-        tableElement: unref(tableRef)
-      });
+        tableElement: unref(tableRef),
+        requestData: data || {}
+      };
+      emit("export", exportParams);
     }
     function setTableSize(value) {
       tableSize.value = value;
@@ -5400,8 +5638,8 @@ const Table = /* @__PURE__ */ defineComponent({
       };
       const extraDom = getSlotVNode(slots, props, "extra", extraSlotScope);
       return createVNode("div", {
-        "class": cx$1("table")
-      }, [propsSearch !== false && renderSearch(), extraDom && createVNode(Extra, null, _isSlot$1(extraDom) ? extraDom : {
+        "class": cx("table")
+      }, [propsSearch !== false && renderSearch(), extraDom && createVNode(Extra, null, _isSlot(extraDom) ? extraDom : {
         default: () => [extraDom]
       }), createVNode(Card, {
         "bodyStyle": cardBodyStyle
@@ -5410,10 +5648,10 @@ const Table = /* @__PURE__ */ defineComponent({
           "getPopupContainer": getPopupContainer
         }, {
           default: () => [createVNode("div", {
-            "class": cx$1("popup-container"),
+            "class": cx("popup-container"),
             "ref": popupContainer
           }, [createVNode("div", {
-            "class": cx$1("table-wrapper"),
+            "class": cx("table-wrapper"),
             "ref": tableRef
           }, [createVNode(Table$1, needTableProps, needTableSlots)])])]
         })]
@@ -5447,251 +5685,6 @@ const index = /* @__PURE__ */ defineComponent({
     };
   }
 });
-function useFetchData(request, props, options) {
-  const { manualRequest, onLoad, onRequestError } = options || {};
-  const context = shallowReactive({
-    loading: false,
-    dataSource: props.dataSource || {}
-  });
-  !manualRequest && fetchData();
-  async function fetchData() {
-    if (!isFunction(request) || context.loading)
-      return;
-    context.loading = true;
-    try {
-      const { success, data } = await request(props.params);
-      if (success !== false) {
-        context.dataSource = data || {};
-        onLoad && onLoad(data);
-      }
-    } catch (err) {
-      if (!onRequestError)
-        throw new Error(err);
-      onRequestError && onRequestError(err);
-    } finally {
-      context.loading = false;
-    }
-  }
-  const stopWatchDataSource = watch(() => props.dataSource, (value) => {
-    context.dataSource = value || {};
-  }, { immediate: true });
-  function onReload() {
-    fetchData();
-  }
-  function onStop() {
-    stopWatchDataSource && stopWatchDataSource();
-  }
-  tryOnScopeDispose(onStop);
-  return { context, onReload };
-}
-const descriptions = "_descriptions_ged24_5";
-const styles = {
-  "popup-container": "_popup-container_ged24_1",
-  descriptions,
-  "descriptions-header": "_descriptions-header_ged24_9",
-  "descriptions-title": "_descriptions-title_ged24_14",
-  "descriptions-extra": "_descriptions-extra_ged24_24"
-};
-function _isSlot(s) {
-  return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
-}
-const cx = classNames.bind(styles);
-const FIELD_MODE = "read";
-const extraProps = {
-  dataSource: {
-    type: Object,
-    default: () => ({})
-  },
-  columns: {
-    type: Array,
-    default: () => []
-  },
-  emptyText: {
-    type: String,
-    default: "-"
-  }
-};
-const Descriptions = /* @__PURE__ */ defineComponent({
-  inheritAttrs: false,
-  props: {
-    ...Descriptions$1.props,
-    ...extraProps,
-    request: {
-      type: Function,
-      default: void 0
-    },
-    params: {
-      type: Object,
-      default: () => ({})
-    },
-    onLoad: {
-      type: Function,
-      default: void 0
-    },
-    onRequestError: {
-      type: Function,
-      default: void 0
-    }
-  },
-  emits: ["load", "requestError"],
-  setup(props, {
-    attrs,
-    emit,
-    slots,
-    expose
-  }) {
-    const popupContainer = ref(null);
-    const {
-      context: requestProps,
-      onReload
-    } = useFetchData(props.request, props, {
-      manualRequest: !props.request,
-      onLoad: (dataSource) => emit("load", dataSource),
-      onRequestError: (err) => emit("requestError", err)
-    });
-    function schemaToDescsItem(columns, emptyText) {
-      return columns.map((item, index2) => {
-        const {
-          fieldProps,
-          formItemProps,
-          __SLOTS__: itemSlots
-        } = item;
-        const {
-          valueType,
-          dataIndex,
-          name,
-          label
-        } = item;
-        const namePath = dataIndex || name || item.key;
-        const title = isFunction(item.title) ? item.title() : item.title || label;
-        const descsItemProps = {
-          ...pick(item, Object.keys(Descriptions$1.Item.props)),
-          key: item.key || label || index2,
-          label: title
-        };
-        const needItemSlots = pick(itemSlots, ["label"]);
-        if (!valueType && !namePath) {
-          const children = itemSlots.default && itemSlots.default(requestProps.dataSource);
-          return createVNode(Descriptions$1.Item, descsItemProps, {
-            default: () => [children ?? emptyText],
-            ...needItemSlots
-          });
-        }
-        const needFormItemProps = {
-          ...pick(item, Object.keys(Form$1.Item.props)),
-          ...formItemProps,
-          name: namePath,
-          model: requestProps.dataSource
-        };
-        const needFieldProps = {
-          ...pick(item, Object.keys(BaseField.props)),
-          mode: FIELD_MODE,
-          emptyText,
-          fieldProps,
-          formItemProps: needFormItemProps
-        };
-        const fieldSlots = omit(itemSlots, ["label"]);
-        return createVNode(Descriptions$1.Item, descsItemProps, {
-          default: () => [createVNode(BaseField, needFieldProps, fieldSlots)],
-          ...needItemSlots
-        });
-      });
-    }
-    function getColumns(children, columns) {
-      const childrenColumns = children.map((item) => {
-        const slots2 = omit(item.children || {}, ["_ctx"]);
-        return {
-          ...item.props,
-          __SLOTS__: slots2
-        };
-      });
-      const needColumns = [...columns, ...childrenColumns].filter((item) => {
-        return !item.hide || !item.hideInDescriptions;
-      });
-      return needColumns.sort((a, b) => {
-        return (a.order || 0) - (b.order || 0);
-      });
-    }
-    function getPopupContainer() {
-      const plain = unref(popupContainer);
-      return plain ? plain.$el || plain : plain;
-    }
-    expose({
-      reload: onReload
-    });
-    return () => {
-      const {
-        columns,
-        emptyText
-      } = props;
-      const nodes = filterEmptyElement(slots.default ? slots.default() : []);
-      const schemaColumns = getColumns(nodes, columns);
-      const children = schemaToDescsItem(schemaColumns, emptyText);
-      const slotScope = {
-        loading: requestProps.loading,
-        data: requestProps.dataSource
-      };
-      const titleDom = getPropsSlot(slots, props, "title", slotScope);
-      const extraDom = getPropsSlot(slots, props, "extra", slotScope);
-      const restProps = omit(props, ["title", "extra"]);
-      const needDescsProps = {
-        ...pick(restProps, Object.keys(Descriptions$1.props)),
-        ...attrs
-      };
-      return createVNode("div", {
-        "class": cx("descriptions")
-      }, [createVNode(ConfigProvider, {
-        "getPopupContainer": getPopupContainer
-      }, {
-        default: () => [createVNode("div", {
-          "class": cx("popup-container"),
-          "ref": popupContainer
-        }, [(titleDom || extraDom) && createVNode("div", {
-          "class": cx("descriptions-header")
-        }, [createVNode("div", {
-          "class": cx("descriptions-title")
-        }, [titleDom]), createVNode("div", {
-          "class": cx("descriptions-extra")
-        }, [createVNode(Space, {
-          "size": 8
-        }, _isSlot(extraDom) ? extraDom : {
-          default: () => [extraDom]
-        })])]), createVNode(Spin, {
-          "spinning": requestProps.loading
-        }, {
-          default: () => [createVNode(Descriptions$1, needDescsProps, _isSlot(children) ? children : {
-            default: () => [children]
-          })]
-        })])]
-      })]);
-    };
-  }
-});
-const Item = /* @__PURE__ */ defineComponent({
-  inheritAttrs: false,
-  name: "DescriptionsItem",
-  props: {
-    ...BaseField.props,
-    ...Form$1.Item.props,
-    ...Descriptions$1.Item.props,
-    hide: {
-      type: Boolean,
-      default: false
-    },
-    order: {
-      type: Number,
-      default: void 0
-    }
-  },
-  setup(_, {
-    slots
-  }) {
-    return () => {
-      return slots.default && slots.default();
-    };
-  }
-});
-Descriptions.Item = Item;
 export {
   Action,
   Group as ActionGroup,
@@ -5713,7 +5706,8 @@ export {
   DateWeekRange,
   DateYear,
   DateYearRange,
-  Item as DescriptionsItem,
+  Descriptions,
+  Item$1 as DescriptionsItem,
   index$1 as DrawerForm,
   index as EditableTable,
   ExitFullscreenOutlined,
@@ -5721,7 +5715,7 @@ export {
   Form,
   Dependency as FormDependency,
   Group$1 as FormGroup,
-  Item$1 as FormItem,
+  Item as FormItem,
   List as FormList,
   FullscreenOutlined,
   HamburgerOutlined,

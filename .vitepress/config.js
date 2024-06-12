@@ -2,11 +2,11 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
     lang: 'zh-CN',
-    title: 'Admin',
+    title: 'Admin Pro',
     base: '/admin-docs/',
     appearance: false,
     themeConfig: {
-        siteTitle: 'Admin',
+        siteTitle: 'Admin Pro',
         lastUpdated: true,
         nav: [
             {
@@ -74,10 +74,6 @@ export default defineConfig({
                         {
                             text: 'Field - 原子组件',
                             link: '/module/field',
-                        },
-                        {
-                            text: 'CustomFields - 自定义原子组件',
-                            link: '/module/custom-fields',
                         }
                     ],
                 },

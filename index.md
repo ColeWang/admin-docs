@@ -3,7 +3,7 @@ layout: home
 
 hero:
   text: Vue3中后台+重型组件
-  tagline: 这里放置了整套Admin模板和重型组件
+  tagline: 这里放置了整套后台模板和重型组件
   actions:
     - theme: brand
       text: 快速开始
