@@ -20,7 +20,7 @@ import { defineAsyncComponent } from 'vue'
 import '../packages/style.css'
 
 const FieldsDemoBasic = defineAsyncComponent(() => {
-  return import('../demos/fields/demo-basic')
+  return import('../demos/fields/DemoBasic')
 })
 </script>
 
@@ -33,7 +33,7 @@ const FieldsDemoBasic = defineAsyncComponent(() => {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/fields/demo-basic.jsx
+<<< @/demos/fields/DemoBasic.jsx
 
 </details>
 

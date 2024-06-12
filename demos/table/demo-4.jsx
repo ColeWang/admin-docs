@@ -25,12 +25,12 @@ export default defineComponent({
                 dataIndex: 'address'
             }
         ]
-        
+
         function postData (data, params, paginate, filter, sort) {
             console.log('postData', data)
             return data
         }
-        
+
         function beforeSearchSubmit (values) {
             return { ...values, test: '111' }
         }
@@ -69,9 +69,7 @@ export default defineComponent({
             }
 
             return (
-                <div>
-                    <Table {...tableProps}/>
-                </div>
+                <Table {...tableProps}/>
             )
         }
     }

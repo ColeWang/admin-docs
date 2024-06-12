@@ -9,7 +9,7 @@ import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
 const LoadingDemoBasic = defineAsyncComponent(() => {
-  return import('../demos/loading/demo-basic')
+  return import('../demos/loading/DemoBasic')
 })
 </script>
 
@@ -22,6 +22,6 @@ const LoadingDemoBasic = defineAsyncComponent(() => {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/loading/demo-basic.jsx
+<<< @/demos/loading/DemoBasic.jsx
 
 </details>

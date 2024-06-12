@@ -17,10 +17,10 @@ import { defineAsyncComponent } from 'vue'
 import '../packages/style.css'
 
 const ModalFormDemoBasic = defineAsyncComponent(() => {
-  return import('../demos/modal-form/demo-basic')
+  return import('../demos/modal-form/DemoBasic')
 })
 const ModalFormDemoControlled = defineAsyncComponent(() => {
-  return import('../demos/modal-form/demo-controlled')
+  return import('../demos/modal-form/DemoControlled')
 })
 </script>
 
@@ -33,7 +33,7 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/modal-form/demo-basic.jsx
+<<< @/demos/modal-form/DemoBasic.jsx
 
 </details>
 
@@ -46,7 +46,7 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/modal-form/demo-controlled.jsx
+<<< @/demos/modal-form/DemoControlled.jsx
 
 </details>
 

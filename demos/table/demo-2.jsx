@@ -51,9 +51,7 @@ export default defineComponent({
             }
 
             return (
-                <div>
-                    <Table {...tableProps}/>
-                </div>
+                <Table {...tableProps}/>
             )
         }
     }

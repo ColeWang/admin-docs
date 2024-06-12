@@ -12,7 +12,7 @@ export default defineComponent({
         }
 
         return () => {
-            return (<Button onClick={onClick}>点击加载</Button>)
+            return <Button onClick={onClick}>点击加载</Button>
         }
     }
 })

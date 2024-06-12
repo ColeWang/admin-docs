@@ -8,7 +8,7 @@ import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
 const SidebarDemoBasic = defineAsyncComponent(() => {
-  return import('../demos/sidebar/demo-basic')
+  return import('../demos/sidebar/DemoBasic')
 })
 </script>
 
@@ -28,7 +28,7 @@ const SidebarDemoBasic = defineAsyncComponent(() => {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/sidebar/demo-basic.jsx
+<<< @/demos/sidebar/DemoBasic.jsx
 
 </details>
 

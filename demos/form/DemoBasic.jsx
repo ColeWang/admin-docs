@@ -1,11 +1,9 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
 import { Date, Form, Number, Select, Text } from '@/components/form'
 
 export default defineComponent({
     setup () {
-        const model = reactive({})
-
         const initialValues = {
             text: 'default name'
         }
@@ -14,18 +12,16 @@ export default defineComponent({
             console.log(values)
         }
 
-        function onSubmit (evt) {
-            console.log(evt)
-            console.log(model)
+        function onFinish (values) {
+            console.log(values)
         }
 
         return () => {
             return (
                 <Form
-                    model={model}
                     initialValues={initialValues}
                     onValuesChange={onValuesChange}
-                    onSubmit={onSubmit}
+                    onFinish={onFinish}
                 >
                     <Text
                         width={365}

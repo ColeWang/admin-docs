@@ -8,7 +8,7 @@ import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
 const NavbarDemoBasic = defineAsyncComponent(() => {
-  return import('../demos/navbar/demo-basic')
+  return import('../demos/navbar/DemoBasic')
 });
 </script>
 
@@ -31,7 +31,7 @@ div[class*='language-'] {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/navbar/demo-basic.jsx
+<<< @/demos/navbar/DemoBasic.jsx
 
 </details>
 

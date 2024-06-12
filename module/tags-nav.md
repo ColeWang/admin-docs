@@ -7,7 +7,7 @@ import { defineAsyncComponent } from 'vue';
 import '../packages/style.css';
 
 const TagsNavDemoBasic = defineAsyncComponent(() => {
-  return import('../demos/tags-nav/demo-basic')
+  return import('../demos/tags-nav/DemoBasic')
 })
 </script>
 
@@ -20,7 +20,7 @@ const TagsNavDemoBasic = defineAsyncComponent(() => {
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/tags-nav/demo-basic.jsx
+<<< @/demos/tags-nav/DemoBasic.jsx
 
 </details>
 

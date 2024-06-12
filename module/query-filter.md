@@ -11,37 +11,37 @@ Table 中默认支持了 QueryFilter 作为筛选表单。
 import { defineAsyncComponent } from 'vue'
 import '../packages/style.css'
 
-const QueryFilterDemo1 = defineAsyncComponent(() => {
-  return import('../demos/query-filter/demo-1')
+const QueryFilterDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/query-filter/DemoBasic')
 })
-const QueryFilterDemo2 =defineAsyncComponent(() => {
-  return import('../demos/query-filter/demo-2')
+const QueryFilterDemoCollapse = defineAsyncComponent(() => {
+  return import('../demos/query-filter/DemoCollapse')
 })
 </script>
 
 ## 基本用法
 
 <ClientOnly>
-<QueryFilterDemo1></QueryFilterDemo1>
+<QueryFilterDemoBasic></QueryFilterDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/query-filter/demo-1.jsx
+<<< @/demos/query-filter/DemoBasic.jsx
 
 </details>
 
-## 可折叠
+## 可折叠的
 
 <ClientOnly>
-<QueryFilterDemo2></QueryFilterDemo2>
+<QueryFilterDemoCollapse></QueryFilterDemoCollapse>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/query-filter/demo-2.jsx
+<<< @/demos/query-filter/DemoCollapse.jsx
 
 </details>
 
@@ -49,17 +49,17 @@ const QueryFilterDemo2 =defineAsyncComponent(() => {
 
 ### 属性
 
-| 属性                | 说明                             | 类型                      | 默认值      |
-|-------------------|--------------------------------|-------------------------|----------|
+| 属性                | 说明                             | 类型                      | 默认值       |
+|-------------------|--------------------------------|-------------------------|-----------|
 | layout            | 布局                             | 'default' \| 'vertical' | 'default' |
-| loading           | 加载状态                           | boolean                 | false    |
-| span              | 固定 Col 的 span, 传的话宽度不会随屏幕变化而变化 | number                  | -        |
-| gutter            | Antd Row 的 gutter              | number                  | 24       |
-| labelWidth        | label 的宽度                      | number \| 'auto'           | 80        |
-| submitter         | 提交按钮相关配置                       | object                  | -        |
-| collapsed         | 折叠的状态                          | boolean                 | true     |
-| showCollapse      | 是否展示折叠                         | boolean                 | false    |
-| defaultRowsNumber | 折叠保留的行数                        | number                  | 1        |
+| loading           | 加载状态                           | boolean                 | false     |
+| span              | 固定 Col 的 span, 传的话宽度不会随屏幕变化而变化 | number                  | -         |
+| gutter            | Antd Row 的 gutter              | number                  | 24        |
+| labelWidth        | label 的宽度                      | number \| 'auto'        | 80        |
+| submitter         | 提交按钮相关配置                       | object                  | -         |
+| collapsed         | 折叠的状态                          | boolean                 | true      |
+| showCollapse      | 是否展示折叠                         | boolean                 | false     |
+| defaultRowsNumber | 折叠保留的行数                        | number                  | 1         |
 
 ### 事件
 
