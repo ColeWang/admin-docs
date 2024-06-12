@@ -26,6 +26,9 @@ const FormDemoGrid = defineAsyncComponent(() => {
 const FormDemoNamePath = defineAsyncComponent(() => {
   return import('../demos/form/DemoNamePath')
 })
+const FormDemoSubmitter = defineAsyncComponent(() => {
+  return import('../demos/form/DemoSubmitter')
+})
 const FormDemoValidation = defineAsyncComponent(() => {
   return import('../demos/form/DemoValidation')
 })
@@ -86,6 +89,19 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
+## 自定义提交
+
+<ClientOnly>
+<FormDemoSubmitter></FormDemoSubmitter>
+</ClientOnly>
+
+<details>
+<summary>显示代码</summary>
+
+<<< @/demos/form/DemoSubmitter.jsx
+
+</details>
+
 ## 数据验证
 
 <ClientOnly>
@@ -111,7 +127,6 @@ const FormDemoDependency = defineAsyncComponent(() => {
 <<< @/demos/form/DemoDependency.jsx
 
 </details>
-
 
 ## API
 
@@ -156,6 +171,27 @@ const FormDemoDependency = defineAsyncComponent(() => {
 | resetFields(names)                  | 重置部分表单     |
 | resetForm()                         | 重置整个表单     |
 
+## Submitter
+
+### 属性
+
+| 属性                | 说明          | 类型      | 默认值   |
+|-------------------|-------------|---------|-------|
+| loading           | 确认按钮的记载状态   | boolean | false |
+| space             | 两个按钮的间距     | number  | 8     |
+| submitText        | 确认按钮的文本     | string  | '提交'  |
+| resetText         | 重置按钮的文本     | string  | '重置'  |
+| submitButtonProps | 确认按钮的 props | object  | -     |
+| resetButtonProps  | 重置按钮的 props | object  | -     |
+
+### 事件
+
+| 事件名称       | 说明     | 回调参数            |
+|------------|--------|-----------------|
+| onSubmit   | 点击提交事件 | function(event) |
+| onReset    | 点击重置事件 | function(event) |
+| onKeyPress | 键盘事件   | function(event) |
+
 ## Form.Group
 
 | 属性    | 说明         | 类型             | 默认值 |
@@ -163,4 +199,10 @@ const FormDemoDependency = defineAsyncComponent(() => {
 | title | 表单组的 title | string \| Slot | -   |
 
 ## Form.Dependency
+
+| 属性       | 说明             | 类型     | 默认值 |
+|----------|----------------|--------|-----|
+| name     | 需要拿到的 namePath | array  | -   |
+| colProps | Col 的参数 props  | object | -   |
+
 
