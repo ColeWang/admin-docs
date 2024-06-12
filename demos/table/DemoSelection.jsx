@@ -26,15 +26,6 @@ export default defineComponent({
             }
         ]
 
-        function postData (data, params, paginate, filter, sort) {
-            console.log('postData', data)
-            return data
-        }
-
-        function beforeSearchSubmit (values) {
-            return { ...values, test: '111' }
-        }
-
         function request (params, paginate, filter, sort) {
             return new Promise((resolve) => {
                 console.log(params)
@@ -64,12 +55,15 @@ export default defineComponent({
             const tableProps = {
                 columns: columns,
                 request: request,
-                beforeSearchSubmit: beforeSearchSubmit,
-                postData: postData
+                rowSelection: true
             }
 
             return (
-                <Table {...tableProps}/>
+                <Table {...tableProps} v-slots={{
+                    alertOptions: ({ keys, rows, cleanSelected }) => {
+                        return <a>批量操作</a>
+                    }
+                }}/>
             )
         }
     }

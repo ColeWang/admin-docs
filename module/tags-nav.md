@@ -11,7 +11,7 @@ const TagsNavDemoBasic = defineAsyncComponent(() => {
 })
 </script>
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
 <TagsNavDemoBasic></TagsNavDemoBasic>
@@ -24,9 +24,9 @@ const TagsNavDemoBasic = defineAsyncComponent(() => {
 
 </details>
 
-## API
+## API {#api}
 
-### 属性
+### 属性 {#api-props}
 
 | 属性       | 说明    | 类型       | 默认值 |
 |----------|-------|----------|-----|
@@ -34,7 +34,7 @@ const TagsNavDemoBasic = defineAsyncComponent(() => {
 | route    | 当前路由  | Route    | -   |
 | tags     | 展示的标签 | Route[\] | \[] |
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称    | 说明      | 回调参数                    |
 |---------|---------|-------------------------|

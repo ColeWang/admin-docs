@@ -72,8 +72,8 @@ export default defineConfig({
                             link: '/module/icon',
                         },
                         {
-                            text: 'Field - 原子组件',
-                            link: '/module/field',
+                            text: 'BaseField - 原子组件',
+                            link: '/module/base-field',
                         }
                     ],
                 },

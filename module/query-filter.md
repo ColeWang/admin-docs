@@ -19,7 +19,7 @@ const QueryFilterDemoCollapse = defineAsyncComponent(() => {
 })
 </script>
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
 <QueryFilterDemoBasic></QueryFilterDemoBasic>
@@ -32,7 +32,7 @@ const QueryFilterDemoCollapse = defineAsyncComponent(() => {
 
 </details>
 
-## 可折叠的
+## 可折叠的 {#demo-collapse}
 
 <ClientOnly>
 <QueryFilterDemoCollapse></QueryFilterDemoCollapse>
@@ -45,9 +45,9 @@ const QueryFilterDemoCollapse = defineAsyncComponent(() => {
 
 </details>
 
-## API
+## API {#api}
 
-### 属性
+### 属性 {#api-props}
 
 | 属性                | 说明                             | 类型                      | 默认值       |
 |-------------------|--------------------------------|-------------------------|-----------|
@@ -61,18 +61,18 @@ const QueryFilterDemoCollapse = defineAsyncComponent(() => {
 | showCollapse      | 是否展示折叠                         | boolean                 | false     |
 | defaultRowsNumber | 折叠保留的行数                        | number                  | 1         |
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称       | 说明         | 回调参数            |
 |------------|------------|-----------------|
 | onCollapse | 折叠的回调      | function(value) |
 | onResize   | size 变化的回调 | function(value) |
 
-### 方法
+### 方法 {#api-event}
 
-| 名称                | 描述         |
-|-------------------|------------|
-| getFormInstance() | 获取 Form 实例 |
+| 名称              | 描述         | 参数                                        |
+|-----------------|------------|-------------------------------------------|
+| getFormInstance | 获取 Form 实例 | () => [object](./form.html#form-instance) |
 
 
 

@@ -69,9 +69,7 @@ export default defineComponent({
             const tableProps = {
                 columns: columns,
                 request: request,
-                search: {
-                    collapseRender: true
-                }
+                search: { showCollapse: true }
             }
 
             return (

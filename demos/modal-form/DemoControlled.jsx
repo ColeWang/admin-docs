@@ -24,7 +24,7 @@ export default defineComponent({
                 <div>
                     <Button onClick={handleClick}>新建表单</Button>
                     <DrawerForm
-                        v-model:open={open.value}
+                        v-model={[open.value, 'open']}
                         title={'抽屉表单'}
                         grid={true}
                         width={512}

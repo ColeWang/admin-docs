@@ -22,7 +22,7 @@ div[class*='language-'] {
 </style>
 
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
 <NavbarDemoBasic></NavbarDemoBasic>
@@ -35,15 +35,15 @@ div[class*='language-'] {
 
 </details>
 
-## API
+## API {#api}
 
-### 属性
+### 属性 {#api-props}
 
 | 属性        | 说明 | 类型      | 默认值   |
 |-----------|----|---------|-------|
 | collapsed | 折叠 | boolean | false |
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称     | 说明      | 回调参数            |
 |----------|---------|-----------------|

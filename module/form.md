@@ -6,7 +6,7 @@ Form 在原来的 [Antd Form](https://www.antdv.com/components/form-cn) 的基�
 
 ---
 
-- 如果想要设置默认值，请使用 initialValues，任何直接使用组件 value 和 onChange 的方式都有可能导致 model 值绑定失效
+- 如果只是想要设置默认值，请使用 initialValues
 - 如果想要监听某个值，建议使用 onValuesChange
 - Form 只是 Antd Form 的封装，如果要使用自定义的组件可以用 Antd Form.Item 包裹后使用，支持混用
 
@@ -37,7 +37,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 })
 </script>
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
 <FormDemoBasic></FormDemoBasic>
@@ -50,7 +50,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## 布局
+## 布局 {#demo-layout}
 
 <ClientOnly>
 <FormDemoLayout></FormDemoLayout>
@@ -63,7 +63,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## 栅格化布局
+## 栅格化布局 {#demo-grid}
 
 <ClientOnly>
 <FormDemoGrid></FormDemoGrid>
@@ -76,7 +76,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## 嵌套结构
+## 嵌套结构 {#demo-name-path}
 
 <ClientOnly>
 <FormDemoNamePath></FormDemoNamePath>
@@ -89,7 +89,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## 自定义提交
+## 自定义提交 {#demo-submitter}
 
 <ClientOnly>
 <FormDemoSubmitter></FormDemoSubmitter>
@@ -102,7 +102,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## 数据验证
+## 数据验证 {#demo-validation}
 
 <ClientOnly>
 <FormDemoValidation></FormDemoValidation>
@@ -115,7 +115,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## 数据联动
+## 数据联动 {#demo-dependency}
 
 <ClientOnly>
 <FormDemoDependency></FormDemoDependency>
@@ -128,19 +128,19 @@ const FormDemoDependency = defineAsyncComponent(() => {
 
 </details>
 
-## API
+## API {#api}
 
-### 属性
+### 属性 {#api-props}
 
-| 属性            | 说明                        | 类型       | 默认值                  |
-|---------------|---------------------------|----------|----------------------|
-| initialValues | 初始值 key 对应 Form.Item name | object   | -                    |
-| submitOnReset | 提交后是否重置表单数据               | boolean  | false                |
-| grid          | 开启 grid 模式                | boolean  | false                |
-| rowProps      | grid 模式下传递给 Antd Row      | object   | { gutter: \[32, 0] } |
-| transform     | onFinish 前对数据的处理          | function | function(values)     |
+| 属性            | 说明                        | 类型                         | 默认值                     |
+|---------------|---------------------------|----------------------------|-------------------------|
+| initialValues | 初始值 key 对应 Form.Item name | object                     | -                       |
+| submitOnReset | 提交后是否重置表单数据               | boolean                    | false                   |
+| grid          | 开启 grid 模式                | boolean                    | false                   |
+| rowProps      | grid 模式下传递给 Antd Row      | object                     | \{ gutter: \[32, 0\] \} |
+| transform     | onFinish 前对数据的处理          | (values: object) => object | -                       |
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称           | 说明          | 回调参数             |
 |----------------|-------------|------------------|
@@ -149,31 +149,31 @@ const FormDemoDependency = defineAsyncComponent(() => {
 | onFinish       | 提交并且校验通过的回调 | function(values) |
 | onReset        | 重置表单回调      | function(values) |
 
-### 方法
+### 方法 {#api-instance}
 
-| 名称                | 描述         |
-|-------------------|------------|
-| getFormInstance() | 获取 Form 实例 |
+| 名称              | 描述         | 参数         |
+|-----------------|------------|------------|
+| getFormInstance | 获取 Form 实例 | () => void |
 
-### Form 实例
+## Form 实例 {#form-instance}
 
-| 名称                                  | 描述         |
-|-------------------------------------|------------|
-| formInstanceRef                     | Form 实例对象  |
-| model                               | 表单数据       |
-| formProps                           | Form props |
-| setModelValue(namePath, value)      | 设置表单数据     |
-| getModelValue(namePath)             | 获取表单数据     |
-| updateModelValue(namePath, updater) | 更新表单数据     |
-| deleteModelValue(namePath)          | 删除表单数据     |
-| submit()                            | 提交表单       |
-| validate(names)                     | 校验表单       |
-| resetFields(names)                  | 重置部分表单     |
-| resetForm()                         | 重置整个表单     |
+| 名称               | 描述         | 参数                                                               |
+|------------------|------------|------------------------------------------------------------------|
+| formInstanceRef  | Form 实例对象  | -                                                                |
+| model            | 表单数据       | -                                                                |
+| formProps        | Form props | -                                                                |
+| setModelValue    | 设置表单数据     | (namePath: string \| array, value) => object                     |
+| getModelValue    | 获取表单数据     | (namePath: string \| array) => value                             |
+| updateModelValue | 更新表单数据     | (namePath: string \| array, updater: (value) => value) => object |
+| deleteModelValue | 删除表单数据     | (namePath: string \| array) => void                              |
+| submit           | 提交表单       | () => void                                                       |
+| validate         | 校验表单       | (names?: array) => Promise(object)                               |
+| resetFields      | 重置部分表单     | (names: array) => void                                           |
+| resetForm        | 重置整个表单     | () => void                                                       |
 
-## Submitter
+## Submitter {#submitter}
 
-### 属性
+### 属性 {#submitter-props}
 
 | 属性                | 说明          | 类型      | 默认值   |
 |-------------------|-------------|---------|-------|
@@ -184,7 +184,7 @@ const FormDemoDependency = defineAsyncComponent(() => {
 | submitButtonProps | 确认按钮的 props | object  | -     |
 | resetButtonProps  | 重置按钮的 props | object  | -     |
 
-### 事件
+### 事件 {#submitter-emit}
 
 | 事件名称       | 说明     | 回调参数            |
 |------------|--------|-----------------|
@@ -192,13 +192,13 @@ const FormDemoDependency = defineAsyncComponent(() => {
 | onReset    | 点击重置事件 | function(event) |
 | onKeyPress | 键盘事件   | function(event) |
 
-## Form.Group
+## Form.Group {#form-group}
 
 | 属性    | 说明         | 类型             | 默认值 |
 |-------|------------|----------------|-----|
 | title | 表单组的 title | string \| Slot | -   |
 
-## Form.Dependency
+## Form.Dependency {#form-dependency}
 
 | 属性       | 说明             | 类型     | 默认值 |
 |----------|----------------|--------|-----|

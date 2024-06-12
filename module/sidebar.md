@@ -19,7 +19,7 @@ const SidebarDemoBasic = defineAsyncComponent(() => {
 }
 </style>
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
 <SidebarDemoBasic></SidebarDemoBasic>
@@ -32,9 +32,9 @@ const SidebarDemoBasic = defineAsyncComponent(() => {
 
 </details>
 
-## API
+## API {#api}
 
-### 属性
+### 属性 {#api-props}
 
 | 属性        | 说明   | 类型       | 默认值   |
 |-----------|------|----------|-------|
@@ -42,7 +42,7 @@ const SidebarDemoBasic = defineAsyncComponent(() => {
 | route     | 当前路由 | Route    | -     |
 | menus     | 菜单数据 | Route\[] | \[]   | 
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称     | 说明      | 回调参数           |
 |----------|---------|----------------|

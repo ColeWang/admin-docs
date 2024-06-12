@@ -2182,7 +2182,8 @@ const FieldPassword = /* @__PURE__ */ defineComponent({
       fieldProps
     } = props;
     const visible = ref(fieldProps.visible || false);
-    function onVisibleClick() {
+    function onVisibleClick(evt) {
+      preventDefault(evt);
       visible.value = !unref(visible);
     }
     return () => {
@@ -2698,6 +2699,10 @@ const extraProps$1 = {
 const tableProps = {
   ...Table$1.props,
   ...extraProps$1,
+  search: {
+    type: [Object, Boolean],
+    default: void 0
+  },
   manualRequest: {
     type: Boolean,
     default: false
@@ -2718,13 +2723,9 @@ const tableProps = {
     type: Function,
     default: void 0
   },
-  search: {
-    type: [Object, Boolean],
-    default: void 0
-  },
   toolbar: {
-    type: [Object, Boolean],
-    default: void 0
+    type: Boolean,
+    default: true
   },
   options: {
     type: [Object, Boolean],
@@ -5014,6 +5015,7 @@ const Action = /* @__PURE__ */ defineComponent({
     slots
   }) {
     function onClick(evt) {
+      preventDefault(evt);
       emit("click", evt);
     }
     return () => {
@@ -5049,6 +5051,9 @@ const Group = /* @__PURE__ */ defineComponent({
   setup(props, {
     slots
   }) {
+    function onClick(evt) {
+      preventDefault(evt);
+    }
     return () => {
       const {
         max,
@@ -5077,7 +5082,8 @@ const Group = /* @__PURE__ */ defineComponent({
             "placement": "bottomRight"
           }, {
             default: () => [createVNode("a", {
-              "class": cx$2("action", "action__primary")
+              "class": cx$2("action", "action__primary"),
+              "onClick": onClick
             }, [createTextVNode("...")])],
             ...dropdownSlots
           })]
@@ -5615,7 +5621,7 @@ const Table = /* @__PURE__ */ defineComponent({
         };
         return createVNode(Alert, alertProps, alertSlots);
       };
-      const cardBodyStyle = propsToolbar !== false ? {
+      const cardBodyStyle = propsToolbar ? {
         paddingBlock: "16px",
         paddingBlockStart: "0"
       } : {
@@ -5644,7 +5650,7 @@ const Table = /* @__PURE__ */ defineComponent({
       }), createVNode(Card, {
         "bodyStyle": cardBodyStyle
       }, {
-        default: () => [propsToolbar !== false && renderToolbar(), propsRowSelection !== false && renderAlert(), createVNode(ConfigProvider, {
+        default: () => [propsToolbar && renderToolbar(), propsRowSelection !== false && renderAlert(), createVNode(ConfigProvider, {
           "getPopupContainer": getPopupContainer
         }, {
           default: () => [createVNode("div", {

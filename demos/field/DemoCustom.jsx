@@ -6,7 +6,7 @@ export default defineComponent({
         return () => {
             return (
                 <Form>
-                    <Field text={'这是一段文本'} mode={'read'} valueType={'text'}/>
+                    <Field valueType={'text'}/>
                 </Form>
             )
         }

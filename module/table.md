@@ -8,25 +8,28 @@ Table 是为了解决项目中需要写很多 table 的样板代码的问题，�
 如果需要手动分页 total 也是必需的。 request 会接管 loading 的设置，同时在查询表单查询时和 params 参数发生修改时重新执行。
 查询表单的值和 params 参数也会带入。
 
+---
+
+- 不需要请求数据的话，可以直接填入参数 dataSource
 
 <script setup>
 import { defineAsyncComponent } from 'vue'
 import '../packages/style.css'
 
-const TableDemo1 = defineAsyncComponent(() => {
-  return import('../demos/table/demo-1')
+const TableDemoBasic = defineAsyncComponent(() => {
+  return import('../demos/table/DemoBasic')
 })
-const TableDemo2 = defineAsyncComponent(() => {
-  return import('../demos/table/demo-2')
+const TableDemoHideSearch = defineAsyncComponent(() => {
+  return import('../demos/table/DemoHideSearch')
 })
-const TableDemo3 = defineAsyncComponent(() => {
-  return import('../demos/table/demo-3')
+const TableDemoHideToolbar = defineAsyncComponent(() => {
+  return import('../demos/table/DemoHideToolbar')
 })
-const TableDemo4 = defineAsyncComponent(() => {
-  return import('../demos/table/demo-4')
+const TableDemoSelection = defineAsyncComponent(() => {
+  return import('../demos/table/DemoSelection')
 })
-const TableDemo5 = defineAsyncComponent(() => {
-  return import('../demos/table/demo-5')
+const TableDemoCustomSearch = defineAsyncComponent(() => {
+  return import('../demos/table/DemoCustomSearch')
 })
 </script>
 
@@ -52,96 +55,97 @@ const TableDemo5 = defineAsyncComponent(() => {
 }
 </style>
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
-<TableDemo1></TableDemo1>
+<TableDemoBasic></TableDemoBasic>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/table/demo-1.jsx
+<<< @/demos/table/DemoBasic.jsx
 
 </details>
 
-## 隐藏搜索栏
+## 隐藏搜索栏 {#demo-hide-search}
 
 <ClientOnly>
-<TableDemo2></TableDemo2>
+<TableDemoHideSearch></TableDemoHideSearch>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/table/demo-2.jsx
+<<< @/demos/table/DemoHideSearch.jsx
 
 </details>
 
-## 隐藏工具栏
+## 隐藏工具栏 {#demo-hide-toolbar}
 
 <ClientOnly>
-<TableDemo3></TableDemo3>
+<TableDemoHideToolbar></TableDemoHideToolbar>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/table/demo-3.jsx
+<<< @/demos/table/DemoHideToolbar.jsx
 
 </details>
 
-## 数据处理
+## 可选择的 {#demo-selection}
 
 <ClientOnly>
-<TableDemo4></TableDemo4>
+<TableDemoSelection></TableDemoSelection>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/table/demo-4.jsx
+<<< @/demos/table/DemoSelection.jsx
 
 </details>
 
-## 可折叠搜索项
+## 自定义搜索栏 {#demo-custom-search}
 
 <ClientOnly>
-<TableDemo5></TableDemo5>
+<TableDemoCustomSearch></TableDemoCustomSearch>
 </ClientOnly>
 
 <details>
 <summary>显示代码</summary>
 
-<<< @/demos/table/demo-5.jsx
+<<< @/demos/table/DemoCustomSearch.jsx
 
 </details>
 
-## API
 
-### 属性
+## API {#api}
 
-| 属性                 | 说明                     | 类型                                                                             | 默认值                    |
-|--------------------|------------------------|--------------------------------------------------------------------------------|------------------------|
-| title              | 表单 Title               | string \| Slot                                                                 | -                      |
-| rowSelection       | 行选择                    | object \| boolean                                                              | false                  |
-| scroll             | 滚动设置                   | object                                                                         | \{ x: 'max-content' \} |
-| emptyText          | 数据为空时的展示               | string                                                                         | -                      |
-| search             | 搜索表单, false 为不展示       | [object](./query-filter.html#api) \| Slot \| false                             | -                      |
-| manualRequest      | 是否需要手动触发首次请求           | boolean                                                                        | false                  |
-| request            | 数据的获取                  | (params, paginate, filter, sort) => Promise.resolve(\{ data, success, total }) | -                      |
-| params             | request 的参数 修改之后会触发更新  | object                                                                         | -                      |
-| beforeSearchSubmit | 表单提交前的数据处理             | (values) => values                                                             | -                      |
-| postData           | 对 request 获取的数据进行处理    | (data, params, paginate, filter, sort) => \[]                                  | -                      |
-| toolbar            | 是否显示工具栏                | boolean                                                                        | true                   |
-| options            | 设置栏的参数, false 为不展示     | object \| false                                                                | -                      |
-| actions            | 工具栏的扩展项, 显示在右侧, 设置栏的左侧 | function \| Slot                                                               | -                      |
-| settings           | 自定义设置栏                 | function \| Slot                                                               | -                      |
-| extra              | Table 上面的扩展栏           | function \| Slot                                                               | -                      |
-| alert              | 自定义的, 选中后操作栏的左侧        | function \| Slot                                                               | -                      |
-| alertOptions       | 选中后操作栏的右侧              | function \| Slot                                                               | -                      |
+### 属性 {#api-props}
 
-### Options
+| 属性                 | 说明                     | 类型                                                                                      | 默认值                    |
+|--------------------|------------------------|-----------------------------------------------------------------------------------------|------------------------|
+| title              | 表单 Title               | string \| Slot({ loading, pageData, pagination })                                       | -                      |
+| rowSelection       | 行选择                    | object \| boolean                                                                       | false                  |
+| scroll             | 滚动设置                   | object                                                                                  | \{ x: 'max-content' \} |
+| emptyText          | 数据为空时的展示               | string                                                                                  | -                      |
+| search             | 搜索表单, false 为不展示       | [object](./query-filter.html#api) \| Slot([props](./query-filter.html#api)) \| false    | -                      |
+| manualRequest      | 是否需要手动触发首次请求           | boolean                                                                                 | false                  |
+| request            | 数据的获取                  | (params, paginate, filter, sort) => Promise.resolve(\{ data, success, total })          | -                      |
+| params             | request 的参数 修改之后会触发更新  | object                                                                                  | -                      |
+| beforeSearchSubmit | 表单提交前的数据处理             | (values) => object                                                                      | -                      |
+| postData           | 对 request 获取的数据进行处理    | (data, params, paginate, filter, sort) => array                                         | -                      |
+| toolbar            | 是否显示工具栏                | boolean                                                                                 | true                   |
+| options            | 设置栏的参数, false 为不展示     | object \| false                                                                         | -                      |
+| actions            | 工具栏的扩展项, 显示在右侧, 设置栏的左侧 | ({ loading, pageData, pagination }) => VNode \| Slot({ loading, pageData, pagination }) | -                      |
+| settings           | 自定义设置栏                 | ({ loading, pageData, pagination }) => VNode \| Slot({ loading, pageData, pagination }) | -                      |
+| extra              | Table 上面的扩展栏           | ({ loading, pageData, pagination }) => VNode \| Slot({ loading, pageData, pagination }) | -                      |
+| alert              | 自定义的, 选中后操作栏的左侧        | ({ keys, rows, cleanSelected }) => VNode \| Slot({ keys, rows, cleanSelected })         | -                      |
+| alertOptions       | 选中后操作栏的右侧              | ({ keys, rows, cleanSelected }) => VNode \| Slot({ keys, rows, cleanSelected })         | -                      |
+
+### Options {#api-props-options}
 
 | 属性      | 说明       | 类型      | 默认值   |
 |---------|----------|---------|-------|
@@ -150,7 +154,7 @@ const TableDemo5 = defineAsyncComponent(() => {
 | density | 显示大小设置按钮 | boolean | true  |
 | setting | 自定表头设置按钮 | boolean | true  |
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称             | 说明            | 回调参数                                       |
 |------------------|---------------|--------------------------------------------|
@@ -163,19 +167,21 @@ const TableDemo5 = defineAsyncComponent(() => {
 | onSizeChange     | size 变化的回调    | function(size)                             |
 | onColumnsChange  | 表头变化的回调       | function(columns)                          |
 | onLoad           | 数据请求成功的回调     | function(data)                             |
-| onRequestError   | 数据请求失败的回调     | function(err)                              |
+| onRequestError   | 数据请求失败的回调     | function(error)                            |
 | onFinish         | 表单提交回调        | function(values)                           |
 | onReset          | 表单重置回调        | function(params)                           |
 
-### 方法
+### 方法 {#api-event}
 
-| 名称                    | 描述                      |
-|-----------------------|-------------------------|
-| reload(resetCurrent?) | 重置表单 参数为 true 时分页回到 第一页 |
-| getRequestData()      | 获取筛选项的数据                |
-| cleanSelected()       | 取消选中                    |
+| 名称             | 描述                      | 参数                                |
+|----------------|-------------------------|-----------------------------------|
+| size           | size                    | -                                 |
+| columns        | columns                 | -                                 |
+| reload         | 重置表单 参数为 true 时分页回到 第一页 | (resetCurrent?: boolean ) => void |
+| getRequestData | 获取筛选项的数据                | () => void                        |
+| cleanSelected  | 取消选中                    | () => void                        |
 
-## Columns 列定义
+## Columns 列定义 {#columns}
 
 | 名称            | 描述                        | 类型                                     | 默认值    |
 |---------------|---------------------------|----------------------------------------|--------|
@@ -199,14 +205,14 @@ const TableDemo5 = defineAsyncComponent(() => {
 | fieldProps    | 输入框的 props                | object                                 | -      |
 | formItemProps | Form.Item 的 props         | object                                 | -      |
 
-## Action.Group
+## Action.Group {#action-group}
 
 | 属性   | 说明                | 类型     | 默认值 |
 |------|-------------------|--------|-----|
 | max  | 子元素超过 max 将生成下拉菜单 | number | 2   |
 | size | 间距                | number | 8   |
 
-## Action
+## Action {#action}
 
 | 属性   | 说明 | 类型                                | 默认值       |
 |------|----|-----------------------------------|-----------|

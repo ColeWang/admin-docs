@@ -9,7 +9,8 @@ ModalForm 和 DrawerForm 是 Form 的一个变体，表现与 Form 相同，
 
 ---
 
-- 提供了 trigger 来减少 state 的使用，如果你需要使用 state 来控制可以使用 open 和 close 来控制打开与关闭
+- 提供了 trigger 来减少 state 的使用，如果你需要使用 state 来控制，也可以使用 open(v-model) 来控制打开与关闭，也可以采用
+  open 和 close
 - ModalForm 和 DrawerForm 的 onFinish 与 Form 不同，是个 Promise，如果你正常返回 Promise 会自动为你设置按钮的加载效果
 
 <script setup>
@@ -24,7 +25,7 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 })
 </script>
 
-## 基本用法
+## 基本用法 {#demo-basic}
 
 <ClientOnly>
 <ModalFormDemoBasic></ModalFormDemoBasic>
@@ -37,7 +38,7 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 
 </details>
 
-## 可控的
+## 可控的 {#demo-controlled}
 
 <ClientOnly>
 <ModalFormDemoControlled></ModalFormDemoControlled>
@@ -50,9 +51,9 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 
 </details>
 
-## API
+## API {#api}
 
-### 属性
+### 属性 {#api-props}
 
 | 属性             | 说明                            | 类型                                     | 默认值        |
 |----------------|-------------------------------|----------------------------------------|------------|
@@ -63,10 +64,10 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 | maskClosable   | 点击蒙层是否关闭                      | boolean                                | true       |
 | destroyOnClose | 关闭时是否销毁内容                     | boolean                                | true       |
 | extraProps     | Modal 和 Drawer 的 Props        | object                                 | -          |
-| trigger        | 用于触发 Modal 打开的 dom，一般是 button | function \| slot                       | -          |
-| submitter      | 提交按钮相关配置                      | object                                 | -          |
+| trigger        | 用于触发 Modal 打开的 dom，一般是 button | () => VNode \| Slot                    | -          |
+| submitter      | 提交按钮相关配置                      | [object](./form.html#submitter)        | -          |
 
-### 事件
+### 事件 {#api-emit}
 
 | 事件名称            | 说明            | 回调参数            |
 |-----------------|---------------|-----------------|
@@ -76,10 +77,10 @@ const ModalFormDemoControlled = defineAsyncComponent(() => {
 | onOpenChange    | open 变化的回调    | function(value) |
 | onLoadingChange | loading 变化的回调 | function(value) |
 
-### 方法
+### 方法 {#api-event}
 
-| 名称                | 描述         |
-|-------------------|------------|
-| getFormInstance() | 获取 Form 实例 |
-| open()            | 打开         |
-| close()           | 关闭         |
+| 名称              | 描述         | 参数                                        |
+|-----------------|------------|-------------------------------------------|
+| getFormInstance | 获取 Form 实例 | () => [object](./form.html#form-instance) |
+| open            | 打开         | () => void                                |
+| close           | 关闭         | () => void                                |
