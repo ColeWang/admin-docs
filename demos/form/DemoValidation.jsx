@@ -19,14 +19,8 @@ export default defineComponent({
                     />
                     <Number
                         width={'sm'}
-                        label={'数字-自定义'}
+                        label={'数字-自定义校验'}
                         name={'number'}
-                        required={true}
-                    />
-                    <Number
-                        width={'sm'}
-                        label={'数字'}
-                        name={['data', 'number']}
                         rules={{
                             required: true,
                             validator: (rule, value, callback) => {
@@ -38,6 +32,12 @@ export default defineComponent({
                                 }
                             }
                         }}
+                    />
+                    <Number
+                        width={'sm'}
+                        label={'数字'}
+                        name={['data', 'number']}
+                        required={true}
                     />
                     <Button html-type={'submit'}>提交</Button>
                 </Form>
