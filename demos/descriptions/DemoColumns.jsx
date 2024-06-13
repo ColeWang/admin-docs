@@ -51,6 +51,7 @@ export default defineComponent({
                                 title: 'text',
                                 dataIndex: 'text',
                                 valueType: 'text',
+                                hideInDescriptions: true
                             }
                         ]}
                     />
