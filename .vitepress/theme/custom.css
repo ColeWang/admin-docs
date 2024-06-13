@@ -19,14 +19,14 @@ div[class*='language-'] {
     margin: 0;
 }
 
-.vp-doc tr {
-    border: none;
-}
+/*.vp-doc tr {*/
+/*    border: none;*/
+/*}*/
 
-.vp-doc td {
-    border: none;
-}
+/*.vp-doc td {*/
+/*    border: none;*/
+/*}*/
 
-.vp-doc tr:nth-child(2n) {
-    background-color: initial;
-}
+/*.vp-doc tr:nth-child(2n) {*/
+/*    background-color: initial;*/
+/*}*/
