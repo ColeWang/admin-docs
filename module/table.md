@@ -10,8 +10,9 @@ Table 是为了解决项目中需要写很多 table 的样板代码的问题，�
 
 ---
 
-- 不需要请求数据的话，可以直接填入参数 dataSource
-- 表头 Columns title 默认使用字符串，Dom 形式可能影响到设置栏的“列设置”，或者使用 v-slot:headerCell="{title, column}" 自定义 Dom 结构
+- 不需要请求数据的话，可以直接填入参数 dataSource。
+- 表头 Columns title 默认使用字符串，Dom 形式可能影响到设置栏的“列设置”，或者使用 v-slot:headerCell="{title, column}" 自定义 Dom 结构。
+- 值得注意的是 sorter、filters 的变化不会触发请求，需要手动请求。
 
 <script setup>
 import { defineAsyncComponent } from 'vue'
@@ -137,7 +138,6 @@ const TableDemoCustomSearch = defineAsyncComponent(() => {
 
 </details>
 
-
 ## API {#api}
 
 ### 属性 {#api-props}
@@ -190,13 +190,13 @@ const TableDemoCustomSearch = defineAsyncComponent(() => {
 
 ### 方法 {#api-event}
 
-| 名称             | 描述                      | 参数                                |
-|----------------|-------------------------|-----------------------------------|
-| size           | size                    | -                                 |
-| columns        | columns                 | -                                 |
-| reload         | 重置表单 参数为 true 时分页回到 第一页 | (resetCurrent?: boolean ) => void |
-| getRequestData | 获取筛选项的数据                | () => void                        |
-| cleanSelected  | 取消选中                    | () => void                        |
+| 名称            | 描述                      | 参数                                       |
+|---------------|-------------------------|------------------------------------------|
+| size          | size                    | -                                        |
+| columns       | columns                 | -                                        |
+| reload        | 重置表单 参数为 true 时分页回到 第一页 | (resetCurrent?: boolean ) => void        |
+| getQueryData  | 获取筛选项的数据                | () => { params, paginate, filter, sort } |
+| cleanSelected | 取消选中                    | () => void                               |
 
 ## Columns 列定义 {#columns}
 
