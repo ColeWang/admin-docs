@@ -26,6 +26,9 @@ const TableDemoHideSearch = defineAsyncComponent(() => {
 const TableDemoHideToolbar = defineAsyncComponent(() => {
   return import('../demos/table/DemoHideToolbar')
 })
+const TableDemoShowExtra = defineAsyncComponent(() => {
+  return import('../demos/table/DemoShowExtra')
+})
 const TableDemoSelection = defineAsyncComponent(() => {
   return import('../demos/table/DemoSelection')
 })
@@ -92,6 +95,19 @@ const TableDemoCustomSearch = defineAsyncComponent(() => {
 <summary>显示代码</summary>
 
 <<< @/demos/table/DemoHideToolbar.jsx
+
+</details>
+
+## 显示扩展栏 {#demo-show-extra}
+
+<ClientOnly>
+<TableDemoShowExtra></TableDemoShowExtra>
+</ClientOnly>
+
+<details>
+<summary>显示代码</summary>
+
+<<< @/demos/table/DemoShowExtra.jsx
 
 </details>
 
