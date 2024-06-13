@@ -12,16 +12,6 @@ const NavbarDemoBasic = defineAsyncComponent(() => {
 });
 </script>
 
-<style>
-div[class*='language-'] {
-  border-radius: 0 !important;
-  margin: 0 !important;
-  background-color: transparent !important;
-  overflow-x: initial !important;
-}
-</style>
-
-
 ## 基本用法 {#demo-basic}
 
 <ClientOnly>

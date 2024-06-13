@@ -2587,12 +2587,7 @@ const Descriptions = /* @__PURE__ */ defineComponent({
           __SLOTS__: slots2
         };
       });
-      const needColumns = [...columns, ...childrenColumns].filter((item) => {
-        return !item.hide || !item.hideInDescriptions;
-      });
-      return needColumns.sort((a, b) => {
-        return (a.order || 0) - (b.order || 0);
-      });
+      return [...columns, ...childrenColumns].filter((item) => !item.hide && !item.hideInDescriptions).sort((a, b) => (a.order || 0) - (b.order || 0));
     }
     function getPopupContainer() {
       const plain = unref(popupContainer);

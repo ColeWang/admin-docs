@@ -1,0 +1,32 @@
+div[class*='language-'] {
+    border-radius: 0 !important;
+    margin: 0 !important;
+    background-color: transparent !important;
+    overflow-x: initial !important;
+}
+
+.vp-doc a {
+    color: #1677ff;
+    text-decoration: none;
+}
+
+.vp-doc a:active {
+    color: #0958d9;
+    text-decoration: none;
+}
+
+.vp-doc table {
+    margin: 0;
+}
+
+.vp-doc tr {
+    border: none;
+}
+
+.vp-doc td {
+    border: none;
+}
+
+.vp-doc tr:nth-child(2n) {
+    background-color: initial;
+}
