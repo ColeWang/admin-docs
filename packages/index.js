@@ -1,20 +1,16 @@
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => {
-  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-  return value;
-};
-import { defineComponent, ref, createVNode, Transition, withDirectives, vShow, unref, render, mergeProps, getCurrentInstance, watch, isVNode, Fragment, withModifiers, nextTick, createTextVNode, computed, onMounted, onBeforeUnmount, inject, provide, isProxy, toRaw, Comment, getCurrentScope, onScopeDispose, shallowReactive, cloneVNode, shallowRef, h } from "vue";
-import { isString, isArray, isObject, isFunction, isNil, reverse, head, last, dropRight, isBoolean, isEqual, isNaN, omitBy, fromPairs, map, get, cloneWith, cloneDeep, isSymbol, compact, isNumber, isUndefined, omit, pick, set, update, unset, clone, transform, debounce, reduce, toString, has, take, takeRight } from "lodash-es";
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+import { defineComponent, ref, createVNode, Transition, withDirectives, vShow, unref, render, mergeProps, getCurrentInstance, watch, isVNode, Fragment, withModifiers, nextTick, createTextVNode, computed, onMounted, onBeforeUnmount, inject, provide, isProxy, toRaw, Comment, getCurrentScope, onScopeDispose, shallowReactive, cloneVNode, h, reactive } from "vue";
+import { isString, isArray, isObject, isFunction, isNil, reverse, head, last, dropRight, isBoolean, isEqual, isNaN, omitBy, reduce, set, map, get, cloneWith, cloneDeep, isSymbol, compact, isNumber, isUndefined, omit, pick, update, unset, clone, debounce, toString, has, take, takeRight } from "lodash-es";
 import { Menu, Button, Dropdown, Breadcrumb as Breadcrumb$1, Avatar as Avatar$1, Space, DatePicker, RangePicker, TimePicker, TimeRangePicker, Badge, Select as Select$1, TreeSelect as TreeSelect$1, Cascader as Cascader$1, Radio as Radio$1, Checkbox as Checkbox$1, Switch as Switch$1, Slider as Slider$1, InputNumber, Input, Descriptions as Descriptions$1, ConfigProvider, Spin, Form as Form$1, Table as Table$1, Row, Col, Modal, Drawer, Card, Tooltip as Tooltip$1, Tree, Popover, TypographyText } from "ant-design-vue";
-import Icon, { createFromIconfontCN, CloseOutlined, LeftOutlined, RightOutlined, CloseCircleOutlined, UserOutlined, CaretDownOutlined, SettingOutlined, LoginOutlined, EyeOutlined, EyeInvisibleOutlined, DownOutlined, UpOutlined, ColumnHeightOutlined, VerticalAlignTopOutlined, VerticalAlignMiddleOutlined, VerticalAlignBottomOutlined, ReloadOutlined } from "@ant-design/icons-vue";
+import Icon, { createFromIconfontCN, CloseOutlined, LeftOutlined, RightOutlined, CloseCircleOutlined, UserOutlined, CaretDownOutlined, SettingOutlined, LoginOutlined, EyeOutlined, EyeInvisibleOutlined, DownOutlined, UpOutlined, VerticalAlignTopOutlined, VerticalAlignMiddleOutlined, VerticalAlignBottomOutlined, ReloadOutlined, ColumnHeightOutlined } from "@ant-design/icons-vue";
 import dayjs from "dayjs";
 function classNames(...args) {
   const classes = [];
   for (let i = 0; i < args.length; i++) {
     const value = args[i];
-    if (!value)
-      continue;
+    if (!value) continue;
     if (isString(value)) {
       classes.push(this && this[value] || value);
     } else if (isArray(value)) {
@@ -465,11 +461,11 @@ const index$6 = /* @__PURE__ */ defineComponent({
       }
     }
     function findMenuKeys(flatMenus, lastKey) {
-      let result2 = flatMenus.find((item) => item.name === lastKey);
+      let result = flatMenus.find((item) => item.name === lastKey);
       const keys = [];
-      while (result2 && !isNil(result2)) {
-        keys.push(result2.name);
-        result2 = result2.parent;
+      while (result && !isNil(result)) {
+        keys.push(result.name);
+        result = result.parent;
       }
       return reverse(keys);
     }
@@ -681,18 +677,18 @@ const index$5 = /* @__PURE__ */ defineComponent({
           route: currentRoute,
           tags
         } = props;
-        const result2 = tags.filter((item) => {
+        const result = tags.filter((item) => {
           return item.name !== current.name;
         });
         if (currentRoute.name === current.name) {
-          const len = result2.length - 1;
+          const len = result.length - 1;
           const index2 = tags.findIndex((item) => {
             return item.name === current.name;
           });
           const value = len >= index2 ? index2 : len;
-          emit("close", result2, result2[value].name);
+          emit("close", result, result[value].name);
         } else {
-          emit("close", result2);
+          emit("close", result);
         }
       };
     }
@@ -704,19 +700,19 @@ const index$5 = /* @__PURE__ */ defineComponent({
       } = props;
       const finalAction = {
         all: () => {
-          const result2 = tags.filter((item) => {
+          const result = tags.filter((item) => {
             return item.name === homeName;
           });
-          emit("close", result2, homeName);
+          emit("close", result, homeName);
           setTimeout(() => {
             getTagInstanceByRoute(homeName);
           }, 100);
         },
         others: () => {
-          const result2 = tags.filter((item) => {
+          const result = tags.filter((item) => {
             return item.name === currentRoute.name || item.name === homeName;
           });
-          emit("close", result2);
+          emit("close", result);
           setTimeout(() => {
             getTagInstanceByRoute(currentRoute.name);
           }, 100);
@@ -913,10 +909,9 @@ const methods = methodMap.find((list) => {
   return exitFullscreenMethod in document;
 });
 const defaultMethod = head(methodMap);
-const result = (methods || []).map((method, index2) => {
-  return [defaultMethod[index2], method];
-});
-const native = fromPairs(result);
+const native = reduce(methods || [], (result, method, key) => {
+  return set(result, defaultMethod[key], method);
+}, {});
 function on(el, type, listener, options) {
   el.addEventListener(type, listener, options);
 }
@@ -1365,10 +1360,8 @@ function useLocaleReceiver(path2, defaultLocale, propsLocale) {
   };
 }
 function formatDate(text, format) {
-  if (isEmpty(text))
-    return text;
-  if (isFunction(format))
-    return format(dayjs(text));
+  if (isEmpty(text)) return text;
+  if (isFunction(format)) return format(dayjs(text));
   return dayjs(text).format(format || "YYYY-MM-DD");
 }
 function cloneProxyToRaw(proxy) {
@@ -1394,31 +1387,31 @@ function isEmptyElement(c) {
   return c && (c.type === Comment || isEmptyText(c) || isEmptyFragment(c));
 }
 function filterEmptyElement(children) {
-  const result2 = [];
+  const result = [];
   if (isArray(children) && children.length !== 0) {
     children.forEach((child) => {
       if (isArray(child)) {
-        result2.push(...child);
+        result.push(...child);
       } else if (child && child.type === Fragment && isArray(child.children)) {
-        result2.push(...filterEmptyElement(child.children));
+        result.push(...filterEmptyElement(child.children));
       } else if (child) {
-        result2.push(child);
+        result.push(child);
       }
     });
   }
-  return result2.filter((c) => !isEmptyElement(c));
+  return result.filter((c) => !isEmptyElement(c));
 }
 function getSlot(slots, props, name = "default") {
-  const result2 = props[name] || slots[name];
-  return isFunction(result2) ? result2 : void 0;
+  const result = props[name] || slots[name];
+  return isFunction(result) ? result : void 0;
 }
 function getSlotVNode(slots, props, name = "default", slotScope) {
-  const result2 = props[name] || slots[name];
-  return isFunction(result2) ? result2(slotScope) : void 0;
+  const result = props[name] || slots[name];
+  return isFunction(result) ? result(slotScope) : void 0;
 }
 function getPropsSlot(slots, props, name = "default", slotScope) {
-  const result2 = props[name] ?? slots[name];
-  return isFunction(result2) ? result2(slotScope) : result2;
+  const result = props[name] ?? slots[name];
+  return isFunction(result) ? result(slotScope) : result;
 }
 const FieldDatePicker = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
@@ -1594,8 +1587,7 @@ const FieldTimeRangePicker = /* @__PURE__ */ defineComponent({
 });
 function valueEnumToOptions(valueEnum = {}) {
   const options = map(valueEnum, (value, key) => {
-    if (isEmpty(value))
-      return value;
+    if (isEmpty(value)) return value;
     if (isObject(value) && value.text) {
       const {
         text,
@@ -1620,28 +1612,23 @@ function optionsToValueEnum(options = [], fieldNames) {
     label = "label",
     children = "children"
   } = fieldNames || {};
-  const traverseOptions = (values) => {
-    const result3 = [];
-    if (isArray(values) && values.length !== 0) {
-      values.forEach((item) => {
-        const key = item[value], text = item[label];
-        const curChildren = item[children];
-        if (!(isEmpty(key) || isEmpty(text))) {
-          result3.push([key, text]);
-        }
-        if (isArray(curChildren) && curChildren.length !== 0) {
-          result3.push(...traverseOptions(curChildren));
-        }
-      });
-    }
-    return result3;
+  const traverseOptions = (values = [], result) => {
+    return reduce(values, (_, option = {}) => {
+      const key = option[value], text = option[label];
+      if (!(isEmpty(key) || isEmpty(text))) {
+        set(result, key, text);
+      }
+      const curChildren = option[children];
+      if (isArray(curChildren) && curChildren.length !== 0) {
+        traverseOptions(curChildren, result);
+      }
+      return result;
+    }, result);
   };
-  const result2 = traverseOptions(options);
-  return fromPairs(result2);
+  return traverseOptions(options, {});
 }
 function valueEnumToText(text, valueEnum = {}) {
-  if (isEmpty(text))
-    return text;
+  if (isEmpty(text)) return text;
   if (isArray(text)) {
     const children = compact(text).map((value) => {
       return valueEnumToText(value, valueEnum);
@@ -2072,11 +2059,6 @@ const FieldTextArea = /* @__PURE__ */ defineComponent({
     const {
       t
     } = useLocaleReceiver(["global"]);
-    function onKeyPress(evt) {
-      if (evt.key === "Enter") {
-        stopPropagation(evt);
-      }
-    }
     return () => {
       const {
         mode,
@@ -2100,7 +2082,6 @@ const FieldTextArea = /* @__PURE__ */ defineComponent({
       }
       const needFieldProps = {
         rows: 3,
-        onKeyPress,
         ...fieldProps,
         placeholder
       };
@@ -2399,7 +2380,6 @@ const BaseField = /* @__PURE__ */ defineComponent({
         name: namePath
       } = formItemProps;
       const inputValue = get(model, namePath, void 0);
-      const dataValue = mode === "edit" ? inputValue ?? text ?? "" : text ?? inputValue ?? "";
       const needFieldProps = {
         ...fieldProps,
         value: inputValue,
@@ -2409,7 +2389,7 @@ const BaseField = /* @__PURE__ */ defineComponent({
       const fieldRenderProps = {
         ...props,
         ...attrs,
-        text: dataValue,
+        text: mode === "edit" ? inputValue ?? text : text ?? inputValue,
         fieldProps: needFieldProps
       };
       const types = unref(valueTypeMap);
@@ -2437,8 +2417,7 @@ function useFetchData$1(request, props, options) {
   });
   !manualRequest && fetchData();
   async function fetchData() {
-    if (!isFunction(request) || context.loading)
-      return;
+    if (!isFunction(request) || context.loading) return;
     context.loading = true;
     try {
       const { success, data } = await request(props.params);
@@ -2447,8 +2426,7 @@ function useFetchData$1(request, props, options) {
         onLoad && onLoad(data);
       }
     } catch (err) {
-      if (!onRequestError)
-        throw new Error(err);
+      if (!onRequestError) throw new Error(err);
       onRequestError && onRequestError(err);
     } finally {
       context.loading = false;
@@ -2816,8 +2794,7 @@ const RowWrap = /* @__PURE__ */ defineComponent({
         ...restProps
       } = props;
       const children = slots.default && slots.default();
-      if (!grid)
-        return createVNode(Fragment, null, [children]);
+      if (!grid) return createVNode(Fragment, null, [children]);
       return createVNode(Row, restProps, _isSlot$9(children) ? children : {
         default: () => [children]
       });
@@ -2957,6 +2934,7 @@ const BaseForm = /* @__PURE__ */ defineComponent({
         const options = isObject(scrollToFirstError) ? scrollToFirstError : {};
         onScrollToField(headField.name, options);
       }
+      console.log("finishFailed");
       emit("finishFailed", error);
     }
     function submit() {
@@ -3050,15 +3028,11 @@ const submitterProps = {
     type: [Object, Boolean],
     default: void 0
   },
-  onSubmit: {
-    type: Function,
-    default: void 0
-  },
   onReset: {
     type: Function,
     default: void 0
   },
-  onKeyPress: {
+  onSubmit: {
     type: Function,
     default: void 0
   }
@@ -3066,7 +3040,7 @@ const submitterProps = {
 const Submitter = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
   props: submitterProps,
-  emits: ["submit", "reset", "keyPress"],
+  emits: ["reset", "submit"],
   setup(props, {
     emit
   }) {
@@ -3076,9 +3050,6 @@ const Submitter = /* @__PURE__ */ defineComponent({
     function onReset(evt) {
       preventDefault(evt);
       emit("reset", evt);
-    }
-    function onKeyPress(evt) {
-      emit("keyPress", evt);
     }
     function onSubmit(evt) {
       preventDefault(evt);
@@ -3097,8 +3068,7 @@ const Submitter = /* @__PURE__ */ defineComponent({
         ...submitButtonProps,
         type: "primary",
         loading: loading2,
-        onClick: onSubmit,
-        onKeyPress
+        onClick: onSubmit
       };
       const resetButtonDom = resetButtonProps !== false && createVNode(Button, mergeProps(resetButtonProps, {
         "onClick": onReset
@@ -3175,8 +3145,7 @@ const ColWrap = /* @__PURE__ */ defineComponent({
       if (isUndefined(originProps.span) && isUndefined(originProps.xs)) {
         originProps.xs = 24;
       }
-      if (!grid)
-        return createVNode(Fragment, null, [children]);
+      if (!grid) return createVNode(Fragment, null, [children]);
       return createVNode(Col, originProps, _isSlot$8(children) ? children : {
         default: () => [children]
       });
@@ -3262,12 +3231,12 @@ const Dependency = /* @__PURE__ */ defineComponent({
         name: namePathList,
         colProps
       } = props;
-      const slotScope = transform(namePathList, (result2, namePath) => {
+      const slotScope = reduce(namePathList, (result, namePath) => {
         if (namePath && getModelValue && isFunction(getModelValue)) {
           const value = getModelValue(namePath);
-          return set(result2, namePath, cloneProxyToRaw(value));
+          return set(result, namePath, cloneProxyToRaw(value));
         }
-        return result2;
+        return result;
       }, {});
       const colWrapProps = {
         ...colProps,
@@ -3598,8 +3567,8 @@ function genFormItemFixStyle(labelWidth, layout) {
 function namePathToString(namePath) {
   if (namePath && isArray(namePath)) {
     const pathString = reduce(namePath, (total, value, index2) => {
-      const result2 = isNumber(value) && index2 > 0 ? `[${value}]` : `.${value}`;
-      return total + result2;
+      const result = isNumber(value) && index2 > 0 ? `[${value}]` : `.${value}`;
+      return total + result;
     }, "");
     return pathString.replace(/^\./, "");
   }
@@ -3842,20 +3811,18 @@ function useFloatForm(props, options) {
     isFunction(props.extraProps.onOpen) && props.extraProps.onOpen();
   }
   function onCancel() {
-    if (unref(loading2))
-      return;
+    if (unref(loading2)) return;
     setOpenValue(false);
     options.onCancel && options.onCancel();
     isFunction(props.extraProps.onCancel) && props.extraProps.onCancel();
   }
   async function onFinish(values) {
-    if (!isFunction(props.onFinish) || unref(loading2))
-      return;
+    if (!isFunction(props.onFinish) || unref(loading2)) return;
     loading2.value = true;
     try {
-      const result2 = await props.onFinish(values);
+      const result = await props.onFinish(values);
       loading2.value = false;
-      result2 && onCancel();
+      result && onCancel();
     } catch (err) {
       loading2.value = false;
       console.warn(err);
@@ -4270,8 +4237,7 @@ const BaseSearch = /* @__PURE__ */ defineComponent({
         }), {
           default: (slotScope) => {
             return children.map((vNode2) => {
-              if (!isValidElement(vNode2))
-                return vNode2;
+              if (!isValidElement(vNode2)) return vNode2;
               const {
                 fieldProps,
                 formItemProps
@@ -4315,12 +4281,12 @@ const Search = /* @__PURE__ */ defineComponent({
     attrs
   }) {
     const defaultColumns = filterSearchColumns(props.columns);
-    const initialValues = transform(defaultColumns, (result2, column) => {
+    const initialValues = reduce(defaultColumns, (result, column) => {
       const namePath = column.key || column.dataIndex;
       if (namePath && !isEmpty(column.initialValue)) {
-        return set(result2, namePath, column.initialValue);
+        return set(result, namePath, column.initialValue);
       }
-      return result2;
+      return result;
     }, {});
     const searchColumns = computed(() => filterSearchColumns(props.columns));
     return () => {
@@ -4390,7 +4356,12 @@ function _isSlot$5(s) {
 }
 const Density = /* @__PURE__ */ defineComponent({
   inheritAttrs: false,
-  setup() {
+  props: {
+    ...Menu.props
+  },
+  setup(props, {
+    attrs
+  }) {
     const {
       tableSize,
       setTableSize
@@ -4398,51 +4369,37 @@ const Density = /* @__PURE__ */ defineComponent({
     const {
       t
     } = useLocaleReceiver(["Table", "toolbar"]);
-    function onChangeClick(params) {
+    function onMenuClick(params) {
+      props.onClick && props.onClick(params);
       if (unref(tableSize) !== params.key) {
         setTableSize && setTableSize(params.key);
       }
     }
     return () => {
-      const dropdownSlots = {
-        overlay: () => {
-          let _slot, _slot2, _slot3;
-          const menuProps = {
-            style: {
-              width: "88px"
-            },
-            selectedKeys: [unref(tableSize)],
-            onClick: onChangeClick
-          };
-          return createVNode(Menu, menuProps, {
-            default: () => [createVNode(Menu.Item, {
-              "key": "large"
-            }, _isSlot$5(_slot = t("densityLarger")) ? _slot : {
-              default: () => [_slot]
-            }), createVNode(Menu.Item, {
-              "key": "middle"
-            }, _isSlot$5(_slot2 = t("densityMiddle")) ? _slot2 : {
-              default: () => [_slot2]
-            }), createVNode(Menu.Item, {
-              "key": "small"
-            }, _isSlot$5(_slot3 = t("densitySmall")) ? _slot3 : {
-              default: () => [_slot3]
-            })]
-          });
-        }
+      let _slot, _slot2, _slot3;
+      const menuProps = {
+        ...attrs,
+        ...props,
+        style: {
+          width: "88px"
+        },
+        selectedKeys: [unref(tableSize)],
+        onClick: onMenuClick
       };
-      return createVNode(Dropdown, {
-        "trigger": "click",
-        "placement": "bottomRight"
-      }, {
-        default: () => [createVNode(Tooltip$1, {
-          "title": t("density")
-        }, {
-          default: () => [createVNode(Button, null, {
-            default: () => [createVNode(ColumnHeightOutlined, null, null)]
-          })]
-        })],
-        ...dropdownSlots
+      return createVNode(Menu, menuProps, {
+        default: () => [createVNode(Menu.Item, {
+          "key": "large"
+        }, _isSlot$5(_slot = t("densityLarger")) ? _slot : {
+          default: () => [_slot]
+        }), createVNode(Menu.Item, {
+          "key": "middle"
+        }, _isSlot$5(_slot2 = t("densityMiddle")) ? _slot2 : {
+          default: () => [_slot2]
+        }), createVNode(Menu.Item, {
+          "key": "small"
+        }, _isSlot$5(_slot3 = t("densitySmall")) ? _slot3 : {
+          default: () => [_slot3]
+        })]
       });
     };
   }
@@ -4491,11 +4448,11 @@ const Tooltip = /* @__PURE__ */ defineComponent({
   }
 });
 const styles$5 = {
-  "tree-list": "_tree-list_197kf_1",
-  "tree-list-title": "_tree-list-title_197kf_1",
-  "tree-node": "_tree-node_197kf_7",
-  "tree-node-title": "_tree-node-title_197kf_12",
-  "tree-node-option": "_tree-node-option_197kf_19"
+  "tree-list": "_tree-list_wqnbf_1",
+  "tree-list-title": "_tree-list-title_wqnbf_4",
+  "tree-node": "_tree-node_wqnbf_10",
+  "tree-node-title": "_tree-node-title_wqnbf_15",
+  "tree-node-option": "_tree-node-option_wqnbf_22"
 };
 const cx$7 = classNames.bind(styles$5);
 const TreeNode = /* @__PURE__ */ defineComponent({
@@ -4642,8 +4599,7 @@ const TreeList = /* @__PURE__ */ defineComponent({
       });
     }
     return () => {
-      if (props.columns.length === 0)
-        return null;
+      if (props.columns.length === 0) return null;
       const {
         columns,
         showTitle,
@@ -4697,8 +4653,9 @@ const TreeList = /* @__PURE__ */ defineComponent({
   }
 });
 const styles$4 = {
-  "column-setting-title": "_column-setting-title_5rp1x_1",
-  "tree-list-group": "_tree-list-group_5rp1x_8"
+  "column-setting": "_column-setting_tmrrx_1",
+  "column-setting-title": "_column-setting-title_tmrrx_5",
+  "tree-list-group": "_tree-list-group_tmrrx_13"
 };
 function _isSlot$4(s) {
   return typeof s === "function" || Object.prototype.toString.call(s) === "[object Object]" && !isVNode(s);
@@ -4729,14 +4686,14 @@ const ColumnSetting = /* @__PURE__ */ defineComponent({
       const {
         checked: targetChecked
       } = evt.target;
-      const values = map(unref(columnsMap), (column, key) => {
+      const values = reduce(unref(columnsMap), (result, column, key) => {
         const checked = column.disable ? column.checked : targetChecked;
-        return [key, {
+        return set(result, key, {
           ...column,
           checked
-        }];
-      });
-      setColumnsMap && setColumnsMap(fromPairs(values));
+        });
+      }, {});
+      setColumnsMap && setColumnsMap(values);
     }
     function onClearClick() {
       setColumnsMap && setColumnsMap(false);
@@ -4766,86 +4723,68 @@ const ColumnSetting = /* @__PURE__ */ defineComponent({
       } else {
         keys.splice(dropIndex + 1, 0, target);
       }
-      const values = keys.map((key, order) => {
+      const values = reduce(keys, (result, key, order) => {
         const column = unref(columnsMap)[key] || {};
-        return [key, {
+        return set(result, key, {
           ...column,
           order
-        }];
-      });
-      setColumnsMap && setColumnsMap(fromPairs(values));
+        });
+      }, {});
+      setColumnsMap && setColumnsMap(values);
     }
     return () => {
+      let _slot, _slot2;
       const {
         checkable,
         draggable
       } = props;
-      const popoverSlots = {
-        title: () => {
-          let _slot, _slot2;
-          const unCheckedColumns = unref(columns).filter((item) => item.checked === false);
-          const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length;
-          const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length;
-          return createVNode("div", {
-            "class": cx$5("column-setting-title")
-          }, [createVNode(Checkbox$1, {
-            "indeterminate": indeterminate,
-            "checked": checked,
-            "onChange": onCheckClick
-          }, _isSlot$4(_slot = t("columnDisplay")) ? _slot : {
-            default: () => [_slot]
-          }), createVNode(Button, {
-            "style": {
-              padding: "4px"
-            },
-            "type": "link",
-            "onClick": onClearClick
-          }, _isSlot$4(_slot2 = t("reset")) ? _slot2 : {
-            default: () => [_slot2]
-          })]);
-        },
-        content: () => {
-          const leftList = unref(columns).filter((item) => item.fixed === "left");
-          const list = unref(columns).filter((item) => item.fixed === void 0);
-          const rightList = unref(columns).filter((item) => item.fixed === "right");
-          const showTitle = leftList.length > 0 || rightList.length > 0;
-          const treeListProps = {
-            checkable,
-            draggable,
-            onCheckChange,
-            onFixedChange,
-            onDropChange
-          };
-          return createVNode("div", {
-            "class": cx$5("tree-list-group")
-          }, [createVNode(TreeList, mergeProps({
-            "fixed": "left",
-            "title": t("leftPin"),
-            "columns": leftList
-          }, treeListProps), null), createVNode(TreeList, mergeProps({
-            "title": t("noPin"),
-            "showTitle": showTitle,
-            "columns": list
-          }, treeListProps), null), createVNode(TreeList, mergeProps({
-            "fixed": "right",
-            "title": t("rightPin"),
-            "columns": rightList
-          }, treeListProps), null)]);
-        }
+      const unCheckedColumns = unref(columns).filter((item) => item.checked === false);
+      const indeterminate = unCheckedColumns.length > 0 && unCheckedColumns.length !== unref(columns).length;
+      const checked = unCheckedColumns.length === 0 && unCheckedColumns.length !== unref(columns).length;
+      const leftList = unref(columns).filter((item) => item.fixed === "left");
+      const list = unref(columns).filter((item) => item.fixed === void 0);
+      const rightList = unref(columns).filter((item) => item.fixed === "right");
+      const showTitle = leftList.length > 0 || rightList.length > 0;
+      const treeListProps = {
+        checkable,
+        draggable,
+        onCheckChange,
+        onFixedChange,
+        onDropChange
       };
-      return createVNode(Popover, {
-        "trigger": "click",
-        "placement": "bottomRight"
-      }, {
-        default: () => [createVNode(Tooltip$1, {
-          "title": t("columnSetting")
-        }, {
-          default: () => [createVNode(Button, null, {
-            default: () => [createVNode(SettingOutlined, null, null)]
-          })]
-        })],
-        ...popoverSlots
-      });
+      return createVNode("div", {
+        "class": cx$5("column-setting")
+      }, [createVNode("div", {
+        "class": cx$5("column-setting-title")
+      }, [createVNode(Checkbox$1, {
+        "indeterminate": indeterminate,
+        "checked": checked,
+        "onChange": onCheckClick
+      }, _isSlot$4(_slot = t("columnDisplay")) ? _slot : {
+        default: () => [_slot]
+      }), createVNode(Button, {
+        "style": {
+          padding: "4px"
+        },
+        "type": "link",
+        "onClick": onClearClick
+      }, _isSlot$4(_slot2 = t("reset")) ? _slot2 : {
+        default: () => [_slot2]
+      })]), createVNode("div", {
+        "class": cx$5("tree-list-group")
+      }, [createVNode(TreeList, mergeProps({
+        "fixed": "left",
+        "title": t("leftPin"),
+        "columns": leftList
+      }, treeListProps), null), createVNode(TreeList, mergeProps({
+        "title": t("noPin"),
+        "showTitle": showTitle,
+        "columns": list
+      }, treeListProps), null), createVNode(TreeList, mergeProps({
+        "fixed": "right",
+        "title": t("rightPin"),
+        "columns": rightList
+      }, treeListProps), null)])]);
     };
   }
 });
@@ -4900,7 +4839,7 @@ const Toolbar = /* @__PURE__ */ defineComponent({
       t
     } = useLocaleReceiver(["Table", "toolbar"]);
     const {
-      requestProps,
+      requestProps = {},
       onReload
     } = useSharedContext();
     function onExportClick() {
@@ -4922,7 +4861,7 @@ const Toolbar = /* @__PURE__ */ defineComponent({
       const titleDom = getSlotVNode(slots, props, "title", slotScope);
       const actionsDom = getSlotVNode(slots, props, "actions", slotScope);
       const renderSettings = () => {
-        const catalog = {
+        const vNodeCatalog = {
           reload: createVNode(Tooltip$1, {
             "title": t("reload")
           }, {
@@ -4943,14 +4882,38 @@ const Toolbar = /* @__PURE__ */ defineComponent({
               default: () => [createVNode(VerticalAlignBottomOutlined, null, null)]
             })]
           }),
-          density: createVNode(Density, null, null),
-          setting: createVNode(ColumnSetting, null, null)
+          density: createVNode(Tooltip$1, {
+            "title": t("density")
+          }, {
+            default: () => [createVNode(Dropdown, {
+              "trigger": ["click"],
+              "placement": "bottomRight"
+            }, {
+              default: () => [createVNode(Button, null, {
+                default: () => [createVNode(ColumnHeightOutlined, null, null)]
+              })],
+              overlay: () => createVNode(Density, null, null)
+            })]
+          }),
+          setting: createVNode(Tooltip$1, {
+            "title": t("columnSetting")
+          }, {
+            default: () => [createVNode(Popover, {
+              "trigger": "click",
+              "placement": "bottomRight"
+            }, {
+              default: () => [createVNode(Button, null, {
+                default: () => [createVNode(SettingOutlined, null, null)]
+              })],
+              content: () => createVNode(ColumnSetting, null, null)
+            })]
+          })
         };
         const options = pick({
           ...defaultOptions,
           ...propsOptions
         }, Object.keys(defaultOptions));
-        const defaultSettings = Object.keys(options).filter((key) => options[key]).map((key) => catalog[key]);
+        const defaultSettings = Object.keys(options).filter((key) => options[key]).map((key) => vNodeCatalog[key]);
         const customSettings = getSlotVNode(slots, props, "settings", slotScope);
         return createVNode(Space.Compact, {
           "style": {
@@ -5056,14 +5019,12 @@ const Group = /* @__PURE__ */ defineComponent({
       } = props;
       const nodes = filterEmptyElement(slots.default ? slots.default() : []);
       if (nodes.length && nodes.length > max) {
-        const firstNodes = take(nodes, max);
-        const secondNodes = takeRight(nodes, nodes.length - max);
         const dropdownSlots = {
           overlay: () => {
             let _slot;
             return createVNode(Menu, {
               "selectedKeys": []
-            }, _isSlot$2(_slot = secondNodes.map((item) => {
+            }, _isSlot$2(_slot = takeRight(nodes, nodes.length - max).map((item) => {
               return createVNode(Menu.Item, null, _isSlot$2(item) ? item : {
                 default: () => [item]
               });
@@ -5073,7 +5034,7 @@ const Group = /* @__PURE__ */ defineComponent({
           }
         };
         return createVNode(Space, restProps, {
-          default: () => [firstNodes, createVNode(Dropdown, {
+          default: () => [take(nodes, max), createVNode(Dropdown, {
             "placement": "bottomRight"
           }, {
             default: () => [createVNode("a", {
@@ -5142,8 +5103,7 @@ const Alert = /* @__PURE__ */ defineComponent({
     }
     return () => {
       let _slot;
-      if (props.selectedRowKeys.length < 1)
-        return null;
+      if (props.selectedRowKeys.length < 1) return null;
       const {
         selectedRowKeys,
         selectedRows
@@ -5191,8 +5151,7 @@ const Alert = /* @__PURE__ */ defineComponent({
   }
 });
 function mergePagination(pagination, t) {
-  if (pagination === false)
-    return false;
+  if (pagination === false) return false;
   const { current, pageSize, showTotal, total } = pagination || {};
   const loopShowTotal = (total2, range) => {
     return `${t("range")} ${range[0]}-${range[1]} ${t("total")} ${total2} ${t("item")}`;
@@ -5221,68 +5180,63 @@ function useFetchData(request, props, options) {
     dataSource: props.dataSource || [],
     pagination: mergePagination(props.pagination, t)
   });
-  const queryParams = shallowRef({});
-  const filterParams = shallowRef({});
-  const sortParams = shallowRef({});
-  function getRequestData() {
-    const params = { ...unref(queryParams), ...props.params };
-    const paginate = pick(context.pagination, ["current", "pageSize"]);
-    const filter = { ...unref(filterParams) };
-    const sort = { ...unref(sortParams) };
-    return { params, paginate, filter, sort };
-  }
-  async function fetchData() {
-    if (!isFunction(request) || context.loading)
-      return;
-    context.loading = true;
-    try {
-      const { params, paginate, filter, sort } = getRequestData();
-      const { success, data, total } = await request(params, paginate, filter, sort);
-      if (success !== false) {
-        if (props.postData && isFunction(props.postData)) {
-          const nextData = props.postData(data, params, paginate, filter, sort);
-          context.dataSource = nextData || [];
-        } else {
-          context.dataSource = data || [];
-        }
-        onLoad && onLoad(data);
-        setPaginate({ total: total || data.length });
-      }
-    } catch (err) {
-      if (!onRequestError)
-        throw new Error(err);
-      onRequestError && onRequestError(err);
-    } finally {
-      context.loading = false;
-    }
-  }
+  const query = shallowReactive({ params: {}, filter: {}, sort: {} });
   const stopWatchDataSource = watch(() => props.dataSource, (value) => {
     context.dataSource = value || [];
   }, { immediate: true });
+  const stopWatchParams = watch([() => query.params, () => props.params], () => {
+    setPaginate({ current: 1 });
+    fetchData();
+  });
   const stopWatchPagination = watch(() => context.pagination, (value, oldValue) => {
     if (value && oldValue && (value.current !== oldValue.current || value.pageSize !== oldValue.pageSize)) {
       oldValue.pageSize !== value.pageSize && setPaginate({ current: 1 });
       fetchData();
     }
   });
-  const stopWatchParams = watch([() => props.params, queryParams], () => {
-    setPaginate({ current: 1 });
-    fetchData();
-  });
-  function setQueryParams(params) {
-    queryParams.value = params;
+  function getQueryData() {
+    const { params, filter, sort } = query;
+    const nextParams = { ...props.params, ...params };
+    const paginate = pick(context.pagination, ["current", "pageSize"]);
+    return { params: nextParams, paginate, filter, sort };
+  }
+  async function fetchData() {
+    if (!isFunction(request) || context.loading) return;
+    context.loading = true;
+    try {
+      const { params, paginate, filter, sort } = getQueryData();
+      const { success, data, total } = await request(params, paginate, filter, sort);
+      if (success !== false) {
+        if (props.postData && isFunction(props.postData)) {
+          const nextData = props.postData(data, params, paginate, filter, sort);
+          context.dataSource = nextData || [];
+          onLoad && onLoad(nextData);
+        } else {
+          context.dataSource = data || [];
+          onLoad && onLoad(data);
+        }
+        setPaginate({ total: total || data.length });
+      }
+    } catch (err) {
+      if (!onRequestError) throw new Error(err);
+      onRequestError && onRequestError(err);
+    } finally {
+      context.loading = false;
+    }
   }
   function setPaginate(paginate) {
-    if (context.pagination === false)
-      return;
+    if (context.pagination === false) return;
     const needPaginate = { ...context.pagination, ...paginate };
     context.pagination = validatePaginate(needPaginate);
   }
+  function setParams(params) {
+    query.params = params;
+  }
   function setFilter(filter) {
-    filterParams.value = filter;
+    query.filter = filter;
   }
   function setSort(sort) {
-    sortParams.value = sort;
+    query.sort = sort;
   }
   function onReload(resetCurrent = false) {
     resetCurrent && setPaginate({ current: 1 });
@@ -5294,7 +5248,7 @@ function useFetchData(request, props, options) {
     stopWatchParams && stopWatchParams();
   }
   tryOnScopeDispose(onStop);
-  return { context, onReload, getRequestData, setQueryParams, setPaginate, setFilter, setSort };
+  return { context, onReload, getQueryData, setParams, setPaginate, setFilter, setSort };
 }
 function getEllipsis(column) {
   if (column.ellipsis && column.ellipsis.showTitle === false) {
@@ -5347,12 +5301,12 @@ function useCustomRender(props) {
   return { columns };
 }
 function genColumnsMap(columns) {
-  const values = columns.map((column, index2) => {
+  return reduce(columns, (result, column, index2) => {
     const checked = isBoolean(column.checked) ? column.checked : true;
     const disable = column.filters || column.sorter ? true : column.disable;
-    return [column.key, { ...column, checked, disable, order: index2 }];
-  });
-  return fromPairs(values);
+    const value = { ...column, checked, disable, order: index2 };
+    return set(result, column.key, value);
+  }, {});
 }
 function useTableColumns(props) {
   const { columns: baseColumns } = useCustomRender(props);
@@ -5439,8 +5393,8 @@ const Table = /* @__PURE__ */ defineComponent({
     const {
       context: requestProps,
       onReload,
-      getRequestData,
-      setQueryParams,
+      getQueryData,
+      setParams,
       setPaginate,
       setFilter,
       setSort
@@ -5478,6 +5432,7 @@ const Table = /* @__PURE__ */ defineComponent({
         paginate: () => {
           onPaginateChange(paginate);
         },
+        /* v8 ignore next 3 */
         filter: () => {
           onFilterChange(filters);
         },
@@ -5521,10 +5476,10 @@ const Table = /* @__PURE__ */ defineComponent({
     function onFinish(values) {
       const nextValues = omitNil(values);
       if (isFunction(props.beforeSearchSubmit)) {
-        const result2 = props.beforeSearchSubmit(nextValues);
-        setQueryParams && setQueryParams(result2 || {});
+        const result = props.beforeSearchSubmit(nextValues);
+        setParams && setParams(result || {});
       } else {
-        setQueryParams && setQueryParams(nextValues);
+        setParams && setParams(nextValues);
       }
       emit("finish", nextValues);
     }
@@ -5532,11 +5487,11 @@ const Table = /* @__PURE__ */ defineComponent({
       emit("reset", value);
     }
     function onExport() {
-      const data = getRequestData && getRequestData();
+      const data = getQueryData && getQueryData();
       const exportParams = {
         pageData: requestProps.dataSource,
         tableElement: unref(tableRef),
-        requestData: data || {}
+        queryData: data || {}
       };
       emit("export", exportParams);
     }
@@ -5561,7 +5516,7 @@ const Table = /* @__PURE__ */ defineComponent({
       size: tableSize,
       columns: tableColumns,
       reload: onReload,
-      getRequestData,
+      getQueryData,
       cleanSelected: onCleanSelected
     });
     return () => {
@@ -5677,12 +5632,17 @@ const index = /* @__PURE__ */ defineComponent({
   setup(props, {
     slots
   }) {
+    reactive(props.dataSource || []);
     return () => {
-      return createVNode(Table, {
-        "search": false,
-        "options": false,
-        "pagination": false
-      }, null);
+      return createVNode(Form, {
+        "layout": "vertical"
+      }, {
+        default: () => [createVNode(Table, {
+          "search": false,
+          "options": false,
+          "pagination": false
+        }, null)]
+      });
     };
   }
 });

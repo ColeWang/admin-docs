@@ -11,7 +11,8 @@ Table 是为了解决项目中需要写很多 table 的样板代码的问题，�
 ---
 
 - 不需要请求数据的话，可以直接填入参数 dataSource。
-- 表头 Columns title 默认使用字符串，Dom 形式可能影响到设置栏的“列设置”，或者使用 v-slot:headerCell="{title, column}" 自定义 Dom 结构。
+- 表头 Columns title 默认使用字符串，Dom 形式可能影响到设置栏的“列设置”，或者使用 v-slot:headerCell="{title, column}" 自定义
+  Dom 结构。
 - 值得注意的是 sorter、filters 的变化不会触发请求，需要手动请求。
 
 <script setup>
@@ -150,7 +151,7 @@ const TableDemoCustomSearch = defineAsyncComponent(() => {
 | emptyText          | 数据为空时的展示               | string                                                                                  | -                      |
 | search             | 搜索表单, false 为不展示       | [object](./query-filter.html#api) \| Slot([props](./query-filter.html#api)) \| false    | -                      |
 | manualRequest      | 是否需要手动触发首次请求           | boolean                                                                                 | false                  |
-| request            | 数据的获取                  | (params, paginate, filter, sort) => Promise.resolve(\{ data, success, total })          | -                      |
+| request            | 数据的获取                  | (params, paginate, filter, sort) => Promise.resolve({ data, success, total })           | -                      |
 | params             | request 的参数 修改之后会触发更新  | object                                                                                  | -                      |
 | beforeSearchSubmit | 表单提交前的数据处理             | (values) => object                                                                      | -                      |
 | postData           | 对 request 获取的数据进行处理    | (data, params, paginate, filter, sort) => array                                         | -                      |
@@ -190,13 +191,13 @@ const TableDemoCustomSearch = defineAsyncComponent(() => {
 
 ### 方法 {#api-event}
 
-| 名称            | 描述                      | 参数                                       |
-|---------------|-------------------------|------------------------------------------|
-| size          | size                    | -                                        |
-| columns       | columns                 | -                                        |
-| reload        | 重置表单 参数为 true 时分页回到 第一页 | (resetCurrent?: boolean ) => void        |
-| getQueryData  | 获取筛选项的数据                | () => { params, paginate, filter, sort } |
-| cleanSelected | 取消选中                    | () => void                               |
+| 名称            | 描述                      | 参数                                         |
+|---------------|-------------------------|--------------------------------------------|
+| size          | size                    | -                                          |
+| columns       | columns                 | -                                          |
+| reload        | 重置表单 参数为 true 时分页回到 第一页 | (resetCurrent?\: boolean ) => void         |
+| getQueryData  | 获取筛选项的数据                | () => ({ params, paginate, filter, sort }) |
+| cleanSelected | 取消选中                    | () => void                                 |
 
 ## Columns 列定义 {#columns}
 
